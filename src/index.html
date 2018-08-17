@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>GAME</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        position: fixed;
+        -webkit-font-smoothing: antialiased;
+      }
+      .styled {
+        transform: scale(1, 0.6);
+        font-family: 'Impact';
+        font-weight: 900;
+        font-size: 22px;
+        color: white;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .intro {
+        position: fixed;
+        width: 100%;
+        top: 10%;
+        padding: 20px;
+        box-sizing: border-box;
+        pointer-events: none;
+        display: none;
+      }
+      .quit {
+        position: fixed;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='quit styled'>Quit</div>
+    <div class='intro styled'>
+      Year 2045, startups have become big global corporations that control the world through The Web.
+      <br>
+      <br>
+      The Digital Resistance has managed to turn The Web offline and it's creating a new open network where we can learn from our mistakes.
+    </div>
+    <canvas id="game"></canvas>
+
+    <script src="Vendor/Traer.js"></script>
+
+    <script src="Lib/Constants.js"></script>
+    <script src="Lib/Ticker.js"></script>
+    <script src="Lib/Game.js"></script>
+    <script src="Lib/Entity.js"></script>
+    <script src="Lib/Pool.js"></script>
+    <script src="Lib/Touch.js"></script>
+
+    <script src="Entities/Bg.js"></script>
+    <script src="Entities/Hook.js"></script>
+    <script src="Entities/Cable.js"></script>
+
+    <script src="States/Start.js"></script>
+    <script src="States/Game.js"></script>
+    <script src="States/Gameover.js"></script>
+
+    <script src="Main.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "js13k2018",
+  "version": "0.0.1",
+  "description": "Game",
+  "scripts": {
+    "start": "python -m SimpleHTTPServer 8000"
+  },
+  "author": "DigitalResistance",
+  "dependencies": {
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify-es": "^3.3.0"
+  }
+}
