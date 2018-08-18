@@ -5,9 +5,10 @@ class Hook extends Entity {
   }
 
   render(ctx, dt, ms) {
+    // console.log(this.p.c);
     this.beginRender(ctx);
     ctx.beginPath();
-    ctx.fillStyle = '#666';
+    ctx.fillStyle = 'hsl(0, 0%, ' + this.p.c * 100 + '%)';
     ctx.arc(0, 0, this.r, 0, PI2);
     ctx.fill();
     this.endRender(ctx);
@@ -15,9 +16,9 @@ class Hook extends Entity {
 
   states() {
     return {
-      hidden: {s: 0, c: 0},
-      visible: {s: 1, c: 1},
-      used: {s: 1, c: 0.5}
+      hidden: {s: 0, c: 0.5},
+      visible: {s: 1, c: 0.5},
+      used: {s: 1, c: 1}
     };
   }
 

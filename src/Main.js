@@ -1,5 +1,5 @@
 var TICKER = new Ticker();
-var PHYS_GRAVITY = 0.003;
+var PHYS_GRAVITY = 0.0;
 var PHYS_DRAG = 0.2;
 var SPRING_STRENGTH = 0.2;
 var SPRING_DAMPING = 0.01;
@@ -13,8 +13,8 @@ G = new Game({
   canvas: 'game',
   setup: ()=> {
     E.bg = new Bg();
-    E.hooks = new Pool(Hook, 30);
-    E.cables = new Pool(Cable, 30);
+    E.hooks = new Pool(Hook, 100);
+    E.cables = new Pool(Cable, 100);
   },
   states: {
     start: StartState,

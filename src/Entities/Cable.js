@@ -1,8 +1,14 @@
+var centerP = null;
+
 class Cable extends Entity {
   constructor() {
     super();
     this.p.p0 = {x: -0.4, y: 0};
     this.p.p1 = {x:  0.4, y: -0.5};
+    if (!centerP) {
+      centerP = PHYS.makeParticle(0, 0, 0, 0);
+      centerP.makeFixed();
+    }
     this.setupPhysics();
   }
 
@@ -11,6 +17,7 @@ class Cable extends Entity {
 
     this.points = Array(n).fill().map((_, i)=> {
       var p = PHYS.makeParticle(1.5, 0, 0, 0);
+      PHYS.makeSpring(p, centerP, 0.02, 0.01, 0);
       if (i > 0) {
 				PHYS.makeSpring(prev, p, SPRING_STRENGTH, SPRING_DAMPING, 0);
 			}

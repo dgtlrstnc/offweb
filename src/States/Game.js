@@ -1,6 +1,6 @@
 var vA = new Vector(), vB = new Vector(), vC = new Vector();
 
-SCREENS = [];
+HOOKS = [];
 CABLES = [];
 
 var activeCableI = 0;
@@ -10,85 +10,115 @@ var currentScreenI = 0;
 resetCables = (ctx)=> {
   activeCableI = 0;
   CABLES = Array(100).fill().map((___, i)=> {
-    return { p0: {x:0, y:2}, p1: {x:0, y:2}, active: false };
+    return {
+      p0: {x:0, y:2},
+      p1: {x:0, y:2},
+      active: false,
+      id0: null,
+      id1: null
+    };
   });
   CABLES[0].active = true;
   E.cables.p = CABLES;
   E.cables.render(ctx, 0, 0);
 };
-resetScreens = (ctx)=> {
-  SCREENS = [];
-};
-addScreen = (ctx, startAt = 1)=> {
-  var n = 10;
-  SCREENS.push({
-    HOOKS: Array(n).fill().map((_, i)=> {
-      return {
-        x: sin(i*123.123) * 0.8,
-        y: startAt-i/n*2,
-        active: true,
-        used: false,
-        missed: false,
-        showAt: rand()*300,
-        hideAt: 1300 + rand()*500,
-        state: 'hidden',
-      };
-    })
+resetHooks = (ctx)=> {
+  var n = 100;
+  HOOKS = Array(n).fill().map((_, i)=> {
+    return {
+      id: i+1,
+      a: i*PI*0.8234,
+      x: 0,
+      y: 0,
+      r: modulate(rand(), 0.2, 0.8),
+      active: true,
+      used: false,
+      missed: false,
+      startAt: easeOut(i/n)*10000,
+      d: 1000+rand()*200,
+      state: 'hidden',
+    };
   });
-  startT = performance.now();
+  E.hooks.p = HOOKS;
+  E.hooks.render(ctx, 0, 0);
 };
 updateLogic = (ms)=> {
-  var SCREEN = SCREENS[currentScreenI];
   var CABLE = CABLES[activeCableI];
-  // drag active cable
+  // drag active cable --------------------------------
   if (T[0]) {
     E.cables.p[activeCableI].p1 = T[0];
   } else {
     E.cables.p[activeCableI].p1 = E.cables.p[activeCableI].p0;
   }
-  // Show/hide hooks
+  // update hook positions ----------------------------
   var t = ms - startT;
-  SCREEN.HOOKS.forEach((h)=> {
-    if (h.showAt < t && h.hideAt > t && h.state !== 'visible') {
-      h.state = 'visible';
+  HOOKS.forEach((h)=> {
+    var tt = modulate(t, 0, 1, h.startAt, h.startAt + h.d)
+    if (tt < 0){
+      h.active = false;
+    } else {
+      extend(h, {active: true, state: 'visible'});
     }
-    if (h.hideAt < t && !h.used) {
-      h.state = 'hidden';
-      h.missed = true;
+    h.x = h.r*easeOut(clamp(tt))*sin(h.a);
+    h.y = h.r*easeOut(clamp(tt))*cos(h.a);
+    if (tt > 1.5) {
+      if (!h.used) {
+        h.missed = true;
+      }
+      tt -= 1.5;
+      h.x = (h.r+(3-h.id/100)*easeOut(clamp(tt)))*sin(h.a);
+      h.y = (h.r+(3-h.id/100)*easeOut(clamp(tt)))*cos(h.a);
     }
   });
+  // update cable anchors ----------------------------
+  CABLES.forEach((c)=> {
+    if (c.id0) {
+      var {x, y} = HOOKS.find((h)=> h.id === c.id0);
+      extend(c, {p0: {x, y}});
+    }
+    if (c.id1) {
+      var {x, y} = HOOKS.find((h)=> h.id === c.id1);
+      extend(c, {p1: {x, y}});
+    }
+  });
+  // handle intersections ----------------------------
   if (T[0]) {
     // find and order hooks by distance to touch
-    var dH = SCREEN.HOOKS.map((h, i)=> {
+    var dH = HOOKS.map((h, i)=> {
+      // index and distance
       return {
-        i, x: h.x, y: h.y,
-        d: (h.active && h.state === 'visible' && !h.used) ? vA.set(h.x, h.y, 0).distanceSquaredTo(vB.set(T[0])) : Infinity,
-      };// index and distance
+        i, d: (h.active && h.state === 'visible' && !h.used) ? vA.set(h.x, h.y, 0).distanceSquaredTo(vB.set(T[0])) : Infinity,
+      };
     }).sort((a, b)=> a.d - b.d );
   }
-  // handle intersections
   if (dH) {
-    var closestH = dH[0];
-    if (closestH.d < 0.05) {
-      SCREEN.HOOKS[closestH.i].used = true;
+    var d = dH[0].d;
+    var closestH = HOOKS[dH[0].i];
+    if (d < 0.05 && closestH.state !== 'used') {
+      closestH.used = true;
+      closestH.state = 'used';
       var p = {x: closestH.x, y: closestH.y, z: 0};
-      CABLE.p1 = p;
+      extend(CABLE, {
+        p1: p,
+        id1: closestH.id
+      });
       activeCableI++;
       CABLE = CABLES[activeCableI];
-      extend(CABLE, {active: true, p0: p, p1: p});
+      extend(CABLE, {
+        active: true,
+        p0: p,
+        p1: p,
+        id0: closestH.id
+      });
       E.cables.entities[activeCableI].resetAt(p);
     }
-  }
-  // screens handling
-  var aliveHooks = SCREEN.HOOKS.filter((h)=> !h.used && !h.missed);
-  if (aliveHooks.length === 0) {
   }
 }
 
 GameState = {
   enter: (ctx)=> {
-    resetScreens(ctx);
-    addScreen(ctx);
+    startT = performance.now();
+    resetHooks(ctx);
     resetCables(ctx);
   },
 
@@ -98,7 +128,7 @@ GameState = {
     E.bg.render(ctx, dt, ms);
     E.cables.p = CABLES.filter((c)=>c.active);
     E.cables.render(ctx, dt, ms);
-    E.hooks.p = flatten(SCREENS.map((s)=>s.HOOKS)).filter((h)=>h.active);
+    E.hooks.p = HOOKS.filter((h)=>h.active);
     E.hooks.render(ctx, dt, ms);
   },
 
