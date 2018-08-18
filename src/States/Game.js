@@ -6,6 +6,7 @@ CABLES = [];
 var activeCableI = 0;
 var startT = null;
 var currentScreenI = 0;
+var lastIntersect = null;
 
 resetCables = (ctx)=> {
   activeCableI = 0;

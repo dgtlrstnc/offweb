@@ -10,6 +10,8 @@ module.exports = function (grunt) {
         src: [
           'src/Vendor/Traer.js',
 
+          'src/Config/Constants.js',
+
           'src/Lib/Util.js',
           'src/Lib/Ticker.js',
           'src/Lib/Game.js',
