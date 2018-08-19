@@ -9,6 +9,7 @@ activeCableI = 0;
 startT = null;
 lastIntersect = null;
 currentCombo = [];
+lastComboHookId = null;
 
 resetCables = (ctx)=> {
   activeCableI = 0;
@@ -32,7 +33,7 @@ resetHooks = (ctx)=> {
       a: rand()*PI2,
       x: 0,
       y: 0,
-      r: modulate(rand(), 0.5, 0.8),
+      r: modulate(rand(), 0.3, 0.8),
       active: true,
       connected: false,
       missed: false,
@@ -66,7 +67,7 @@ updateLogic = (ms)=> {
         r = h.currentR = h.r*easeOut(clamp(tt));
       } else if (tt > HOOKS_PAUSE) {
         tt -= HOOKS_PAUSE;
-        r = h.currentR = h.r+(3-h.id/100)*easeOut(clamp(tt));
+        r = h.currentR = h.r+easeOut(clamp(tt));
       }
     } else if (h.connected && h.comboAt) {
       var delay = 100;
@@ -141,7 +142,10 @@ updateLogic = (ms)=> {
   }
 };
 onComboDone = (t)=> {
+  if (!currentCombo.length || lastComboHookId === last(currentCombo).id) return;
+  lastComboHookId = last(currentCombo).id;
   currentCombo.forEach((h)=> h.comboAt = t);
+  stateCombos.push(currentCombo.length-1);
   currentCombo = [];
 };
 
@@ -166,9 +170,10 @@ GameState = {
 
     E.mask.render(ctx, dt, ms);
 
-    var points = stateConnected;
+    var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c*c), 0);
     // extend(E.pointsCounter.p, {n: points, s:0.5, x: 0, y: -pxToUnits(H/2)+0.1 });
-    extend(E.pointsCounter.p, {n: points, s:0.5, x: 0, y: -1.3 });
+    extend(E.pointsCounter.p, {s:0.5, x: 0, y: -1.3 });
+    E.pointsCounter.setNumber(points);
     E.pointsCounter.render(ctx);
   },
 

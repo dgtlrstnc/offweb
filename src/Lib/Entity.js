@@ -81,7 +81,7 @@ class Entity {
     tvs.forEach((tv, i)=> {
       var tk = tks[i];
       var fv = this._a.from[tk];
-      this.p[tk] = modulate(easeBackOut(p), fv, tv);
+      this.p[tk] = modulate(easeOut(p), fv, tv);
     });
   }
 }
