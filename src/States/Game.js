@@ -5,8 +5,8 @@ CABLES = [];
 
 var activeCableI = 0;
 var startT = null;
-var currentScreenI = 0;
 var lastIntersect = null;
+var currentCombo = [];
 
 resetCables = (ctx)=> {
   activeCableI = 0;
@@ -24,51 +24,56 @@ resetCables = (ctx)=> {
   E.cables.render(ctx, 0, 0);
 };
 resetHooks = (ctx)=> {
-  var n = 100;
-  HOOKS = Array(n).fill().map((_, i)=> {
+  HOOKS = Array(HOOKS_AMOUNT).fill().map((_, i)=> {
     return {
       id: i+1,
-      a: i*PI*0.8234,
+      a: rand()*PI2,
       x: 0,
       y: 0,
-      r: modulate(rand(), 0.2, 0.8),
+      r: modulate(rand(), 0.5, 0.8),
       active: true,
-      used: false,
+      connected: false,
       missed: false,
-      startAt: easeOut(i/n)*10000,
+      startAt: (i/HOOKS_AMOUNT)*10000,
       d: 1000+rand()*200,
       state: 'hidden',
     };
   });
   E.hooks.p = HOOKS;
-  E.hooks.render(ctx, 0, 0);
 };
 updateLogic = (ms)=> {
   var CABLE = CABLES[activeCableI];
+  var t = ms - startT;
   // drag active cable --------------------------------
-  if (T[0]) {
-    E.cables.p[activeCableI].p1 = T[0];
-  } else {
-    E.cables.p[activeCableI].p1 = E.cables.p[activeCableI].p0;
+  if (CABLE.active) {
+    if (T[0]) {
+      E.cables.p[activeCableI].p1 = T[0];
+    } else {
+      E.cables.p[activeCableI].p1 = E.cables.p[activeCableI].p0;
+    }
   }
   // update hook positions ----------------------------
-  var t = ms - startT;
   HOOKS.forEach((h)=> {
     var tt = modulate(t, 0, 1, h.startAt, h.startAt + h.d)
-    if (tt < 0){
-      h.active = false;
-    } else {
-      extend(h, {active: true, state: 'visible'});
-    }
-    h.x = h.r*easeOut(clamp(tt))*sin(h.a);
-    h.y = h.r*easeOut(clamp(tt))*cos(h.a);
-    if (tt > 1.5) {
-      if (!h.used) {
-        h.missed = true;
+    var r = null;
+    if (!h.connected) {
+      if (tt < 0){
+        h.active = false;
+      } else  if (tt <= 1) {
+        extend(h, {active: true, state: 'visible'});
+        r = h.currentR = h.r*easeOut(clamp(tt));
+      } else if (tt > HOOKS_PAUSE) {
+        tt -= HOOKS_PAUSE;
+        r = h.currentR = h.r+(3-h.id/100)*easeOut(clamp(tt));
       }
-      tt -= 1.5;
-      h.x = (h.r+(3-h.id/100)*easeOut(clamp(tt)))*sin(h.a);
-      h.y = (h.r+(3-h.id/100)*easeOut(clamp(tt)))*cos(h.a);
+    } else if (h.connected && h.comboAt) {
+      var delay = 100;
+      tt = modulate(t, 0, 1, h.comboAt + delay, h.comboAt + h.d + delay);
+      r = h.hitR+(2)*easeOut(clamp(tt));
+    }
+    if (r !== null) {
+      h.x = r*sin(h.a);
+      h.y = r*cos(h.a);
     }
   });
   // update cable anchors ----------------------------
@@ -83,12 +88,13 @@ updateLogic = (ms)=> {
     }
   });
   // handle intersections ----------------------------
+  var sinceLastIntersect = t - lastIntersect;
   if (T[0]) {
     // find and order hooks by distance to touch
     var dH = HOOKS.map((h, i)=> {
       // index and distance
       return {
-        i, d: (h.active && h.state === 'visible' && !h.used) ? vA.set(h.x, h.y, 0).distanceSquaredTo(vB.set(T[0])) : Infinity,
+        i, d: (h.active && h.state === 'visible' && !h.connected) ? vA.set(h.x, h.y, 0).distanceSquaredTo(vB.set(T[0])) : Infinity,
       };
     }).sort((a, b)=> a.d - b.d );
   }
@@ -96,14 +102,20 @@ updateLogic = (ms)=> {
     var d = dH[0].d;
     var closestH = HOOKS[dH[0].i];
     if (d < 0.05 && closestH.state !== 'used') {
-      closestH.used = true;
-      closestH.state = 'used';
       var p = {x: closestH.x, y: closestH.y, z: 0};
-      extend(CABLE, {
-        p1: p,
-        id1: closestH.id
+      extend(closestH, {
+        connected: t,
+        state: 'used',
+        hitR: closestH.currentR
       });
-      activeCableI++;
+      currentCombo.push(closestH);
+      if (sinceLastIntersect < COMBO_DELTA) {
+        extend(CABLE, {
+          p1: p,
+          id1: closestH.id
+        });
+        activeCableI++;
+      }
       CABLE = CABLES[activeCableI];
       extend(CABLE, {
         active: true,
@@ -112,8 +124,22 @@ updateLogic = (ms)=> {
         id0: closestH.id
       });
       E.cables.entities[activeCableI].resetAt(p);
+      lastIntersect = t;
     }
   }
+  sinceLastIntersect = t - lastIntersect;
+  if (sinceLastIntersect > COMBO_DELTA) {
+    onComboDone(t);
+  }
+  if (!T[0]) {
+    onComboDone(t);
+    lastIntersect = -10000;
+    CABLE.active = false;
+  }
+}
+onComboDone = (t)=> {
+  currentCombo.forEach((h)=> h.comboAt = t);
+  currentCombo = [];
 }
 
 GameState = {

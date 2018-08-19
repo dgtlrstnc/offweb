@@ -18,7 +18,7 @@ class Pool {
       if (p && p.state) {
         e.setState(p.state);
       }
-      e.render(ctx, dt, ms);
+      if (p) e.render(ctx, dt, ms);
     });
   }
 }
