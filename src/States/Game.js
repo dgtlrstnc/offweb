@@ -2,6 +2,7 @@ var vA = new Vector(), vB = new Vector(), vC = new Vector();
 
 HOOKS = [];
 CABLES = [];
+POINTER = {x:0, y:0, state: 'hidden'};
 
 stateConnected = 0;
 stateCombos = [];
@@ -140,6 +141,14 @@ updateLogic = (ms)=> {
     lastIntersect = -10000;
     CABLE.active = false;
   }
+
+  // pointer ----------------------------------
+  if (T[0]) {
+    POINTER.state = 'visible';
+    extend(POINTER, T[0]);
+  } else {
+    POINTER.state = 'hidden';
+  }
 };
 onComboDone = (t)=> {
   if (!currentCombo.length || lastComboHookId === last(currentCombo).id) return;
@@ -171,10 +180,13 @@ GameState = {
     E.mask.render(ctx, dt, ms);
 
     var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c*c), 0);
-    // extend(E.pointsCounter.p, {n: points, s:0.5, x: 0, y: -pxToUnits(H/2)+0.1 });
     extend(E.pointsCounter.p, {s:0.5, x: 0, y: -1.3 });
     E.pointsCounter.setNumber(points);
     E.pointsCounter.render(ctx);
+
+    extend(E.pointer.p, POINTER);
+    E.pointer.setState(POINTER.state);
+    E.pointer.render(ctx);
   },
 
   leave: ()=> {

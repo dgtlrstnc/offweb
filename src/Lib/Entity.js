@@ -1,7 +1,7 @@
 class Entity {
   constructor(o = {}) {
     this._animate = this._animate.bind(this);
-    this.p = { x: 0, y: 0, r: 0, s: 1 };
+    this.p = { x: 0, y: 0, r: 0, s: 1, o:1 };
     this.cacheStates();
     this.cacheAnimations();
     this.setStateI(o.s);
@@ -9,11 +9,13 @@ class Entity {
 
   beginRender(ctx) {
     ctx.resetTransform();
+    ctx.globalAlpha = this.p.o;
     ctx.translate(unitsToPx(this.p.x+1), unitsToPx(this.p.y+H/W));
     ctx.scale(this.p.s, this.p.s);
   }
 
   endRender(ctx) {
+    ctx.globalAlpha = 1;
     ctx.resetTransform();
   }
 
@@ -56,6 +58,8 @@ class Entity {
 
   setState(state) {
     if (state === this._state) return;
+    this._a = null;
+    TICKER.remove(this._animate);
     var s = this.getState(state);
     var a = this.getAnimation(this._state, state);
     if (!a) return this.setStateI(state);

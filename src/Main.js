@@ -13,6 +13,7 @@ G = new Game({
     E.pointsCounter = new Counter();
     E.hooks = new Pool(Hook, 100);
     E.cables = new Pool(Cable, 100);
+    E.pointer = new Pointer();
   },
   states: {
     start: StartState,

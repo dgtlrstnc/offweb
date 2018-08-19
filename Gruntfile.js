@@ -24,6 +24,7 @@ module.exports = function (grunt) {
           'src/Entities/Counter.js',
           'src/Entities/Hook.js',
           'src/Entities/Cable.js',
+          'src/Entities/Pointer.js',
 
           'src/States/Start.js',
           'src/States/Game.js',
