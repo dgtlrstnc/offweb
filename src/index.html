@@ -33,10 +33,17 @@
       .quit {
         position: fixed;
         width: 100%;
+        display: none;
+      }
+      img {
+        display: none;
       }
     </style>
   </head>
   <body>
+
+    <img id="font" src='Numbers.svg'/>
+
     <div class='quit styled'>Quit</div>
     <div class='intro styled'>
       Year 2045, startups have become big global corporations that control the world through The Web.
@@ -51,13 +58,15 @@
     <script src="Config/Constants.js"></script>
 
     <script src="Lib/Util.js"></script>
+    <script src="Lib/Touch.js"></script>
     <script src="Lib/Ticker.js"></script>
     <script src="Lib/Game.js"></script>
     <script src="Lib/Entity.js"></script>
     <script src="Lib/Pool.js"></script>
-    <script src="Lib/Touch.js"></script>
 
     <script src="Entities/Bg.js"></script>
+    <script src="Entities/Mask.js"></script>
+    <script src="Entities/Counter.js"></script>
     <script src="Entities/Hook.js"></script>
     <script src="Entities/Cable.js"></script>
 

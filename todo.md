@@ -1,3 +1,3 @@
 [ ] pointer entity
-[ ] points
+[x] points
 [x] leave after connection

@@ -3,10 +3,12 @@ var vA = new Vector(), vB = new Vector(), vC = new Vector();
 HOOKS = [];
 CABLES = [];
 
-var activeCableI = 0;
-var startT = null;
-var lastIntersect = null;
-var currentCombo = [];
+stateConnected = 0;
+stateCombos = [];
+activeCableI = 0;
+startT = null;
+lastIntersect = null;
+currentCombo = [];
 
 resetCables = (ctx)=> {
   activeCableI = 0;
@@ -108,6 +110,7 @@ updateLogic = (ms)=> {
         state: 'used',
         hitR: closestH.currentR
       });
+      stateConnected++;
       currentCombo.push(closestH);
       if (sinceLastIntersect < COMBO_DELTA) {
         extend(CABLE, {
@@ -136,15 +139,17 @@ updateLogic = (ms)=> {
     lastIntersect = -10000;
     CABLE.active = false;
   }
-}
+};
 onComboDone = (t)=> {
   currentCombo.forEach((h)=> h.comboAt = t);
   currentCombo = [];
-}
+};
 
 GameState = {
   enter: (ctx)=> {
     startT = performance.now();
+    stateConnected = 0;
+    stateCombos = [];
     resetHooks(ctx);
     resetCables(ctx);
   },
@@ -153,10 +158,18 @@ GameState = {
     updateLogic(ms);
     PHYS.tick();
     E.bg.render(ctx, dt, ms);
+
     E.cables.p = CABLES.filter((c)=>c.active);
     E.cables.render(ctx, dt, ms);
     E.hooks.p = HOOKS.filter((h)=>h.active);
     E.hooks.render(ctx, dt, ms);
+
+    E.mask.render(ctx, dt, ms);
+
+    var points = stateConnected;
+    // extend(E.pointsCounter.p, {n: points, s:0.5, x: 0, y: -pxToUnits(H/2)+0.1 });
+    extend(E.pointsCounter.p, {n: points, s:0.5, x: 0, y: -1.3 });
+    E.pointsCounter.render(ctx);
   },
 
   leave: ()=> {

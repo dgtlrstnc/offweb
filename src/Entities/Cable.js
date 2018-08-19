@@ -17,7 +17,7 @@ class Cable extends Entity {
 
     this.points = Array(n).fill().map((_, i)=> {
       var p = PHYS.makeParticle(1.5, 0, 0, 0);
-      PHYS.makeSpring(p, centerP, 0.02, 0.01, 0);
+      PHYS.makeSpring(p, centerP, 0.01, 0.01, 0);
       if (i > 0) {
 				PHYS.makeSpring(prev, p, SPRING_STRENGTH, SPRING_DAMPING, 0);
 			}
@@ -26,7 +26,6 @@ class Cable extends Entity {
     });
 
     first(this.points).makeFixed();
-    // last(this.points).makeFixed();
 
     this.target = PHYS.makeParticle(2, 0, 0, 0);
 		PHYS.makeSpring(last(this.points), this.target, SPRING_STRENGTH*10, 3, 0);

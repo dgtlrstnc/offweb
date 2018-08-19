@@ -5,7 +5,6 @@ class Hook extends Entity {
   }
 
   render(ctx, dt, ms) {
-    // console.log(this.p.c);
     this.beginRender(ctx);
     ctx.beginPath();
     ctx.fillStyle = 'hsl(0, 0%, ' + this.p.c * 100 + '%)';

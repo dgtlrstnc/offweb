@@ -1,7 +1,7 @@
-var TICKER = new Ticker();
+TICKER = new Ticker();
 PHYS = new ParticleSystem(PHYS_GRAVITY, PHYS_DRAG);
 
-// Entity instances
+// Entities
 E = {};
 
 // Game instance
@@ -9,6 +9,8 @@ G = new Game({
   canvas: 'game',
   setup: ()=> {
     E.bg = new Bg();
+    E.mask = new Mask();
+    E.pointsCounter = new Counter();
     E.hooks = new Pool(Hook, 100);
     E.cables = new Pool(Cable, 100);
   },

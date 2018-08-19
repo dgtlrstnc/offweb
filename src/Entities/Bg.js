@@ -1,5 +1,4 @@
 class Bg extends Entity {
-
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     ctx.beginPath();

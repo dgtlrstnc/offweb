@@ -13,13 +13,15 @@ module.exports = function (grunt) {
           'src/Config/Constants.js',
 
           'src/Lib/Util.js',
+          'src/Lib/Touch.js',
           'src/Lib/Ticker.js',
           'src/Lib/Game.js',
           'src/Lib/Entity.js',
           'src/Lib/Pool.js',
-          'src/Lib/Touch.js',
 
           'src/Entities/Bg.js',
+          'src/Entities/Mask.js',
+          'src/Entities/Counter.js',
           'src/Entities/Hook.js',
           'src/Entities/Cable.js',
 
@@ -42,7 +44,8 @@ module.exports = function (grunt) {
     copy: {
       build: {
         files: {
-          'build/index.html': ['src/build.html']
+          'build/index.html': ['src/build.html'],
+          'build/Numbers.svg': ['src/Numbers.svg']
         }
       }
     },
@@ -54,7 +57,8 @@ module.exports = function (grunt) {
         },
         files: [
           { src: 'build/build.min.js' },
-          { src: 'build/index.html' }
+          { src: 'build/index.html' },
+          { src: 'build/Numbers.svg' }
         ]
       }
     }
