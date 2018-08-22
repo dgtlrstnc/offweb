@@ -7,6 +7,7 @@ cos = Math.cos;
 abs = Math.abs;
 rand = Math.random;
 floor = Math.floor;
+round = Math.round;
 
 clamp = (val, min = 0, max = 1)=> {
      if (val < min) return min;
@@ -25,8 +26,14 @@ modulate = (val, start, end, originStart = 0, originEnd = 1)=> {
   var m = val * length + start;
   return m;
 };
-easeIn = (t)=> t*t*t*t
-easeOut = (t)=> 1-(--t)*t*t*t
+times = (n, cb)=> {
+   Array(n).fill().forEach((_, i)=>cb(i));
+};
+range = (n)=> {
+   return Array(n).fill().map((_, i)=>i);
+};
+easeIn = (t)=> t * t * t * t * t
+easeOut = (t)=> --t * t * t * t * t + 1
 easeInOut = (t)=> t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t
 easeBackIn = (t)=> {
   var s = 1.7;

@@ -5,6 +5,7 @@ class Cable extends Entity {
     super();
     this.p.p0 = {x: -0.4, y: 0};
     this.p.p1 = {x:  0.4, y: -0.5};
+    this.p.c = 1;
     if (!centerP) {
       centerP = PHYS.makeParticle(0, 0, 0, 0);
       centerP.makeFixed();
@@ -17,7 +18,7 @@ class Cable extends Entity {
 
     this.points = Array(n).fill().map((_, i)=> {
       var p = PHYS.makeParticle(1.5, 0, 0, 0);
-      PHYS.makeSpring(p, centerP, 0.01, 0.01, 0);
+      // PHYS.makeSpring(p, centerP, PHYS_GRAVITY, 0.1, 0); // ???
       if (i > 0) {
 				PHYS.makeSpring(prev, p, SPRING_STRENGTH, SPRING_DAMPING, 0);
 			}
@@ -27,7 +28,7 @@ class Cable extends Entity {
 
     first(this.points).makeFixed();
 
-    this.target = PHYS.makeParticle(2, 0, 0, 0);
+    this.target = PHYS.makeParticle(1.5, 0, 0, 0);
 		PHYS.makeSpring(last(this.points), this.target, SPRING_STRENGTH*10, 3, 0);
     this.target.makeFixed();
   }
@@ -52,7 +53,7 @@ class Cable extends Entity {
     var ps = this.points.map((p)=>p.pos);
     this.beginRender(ctx);
     ctx.beginPath();
-    ctx.strokeStyle = 'white';
+    ctx.strokeStyle = 'hsl(0, 0%, ' + this.p.c * 100 + '%)';
     ctx.lineWidth = 5;
     ctx.lineCap = 'round';
     ctx.moveTo(ps[0].x*W/2, ps[0].y*W/2);
@@ -68,5 +69,18 @@ class Cable extends Entity {
     });
     ctx.stroke();
     this.endRender(ctx);
+  }
+
+  states() {
+    return {
+      normal: {c: 1},
+      connected: {c: 0.2}
+    };
+  }
+
+  animations() {
+    return {
+      'normal→connected': {_d: 500, c: [0, 1, 'in']}
+    };
   }
 }

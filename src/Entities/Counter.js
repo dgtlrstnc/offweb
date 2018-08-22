@@ -26,7 +26,7 @@ class Counter extends Entity {
 
   setNumber(n) {
     if (this.p.n !== n) {
-      this.animateTo({n}, {_d: 400});
+      this.animateTo({n}, {_d: 1500});
     }
   }
 }

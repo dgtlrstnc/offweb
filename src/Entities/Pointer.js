@@ -6,7 +6,7 @@ class Pointer extends Entity {
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     ctx.beginPath();
-    ctx.strokeStyle = '#F33';
+    ctx.strokeStyle = COLOR_RED;
     ctx.lineWidth = 4;
     ctx.arc(0, 0, 40, 0, PI2);
     ctx.stroke();
@@ -23,7 +23,7 @@ class Pointer extends Entity {
   animations() {
     return {
       'hidden→visible': {_d: 300, s: [0, 1, 'in'], c: [0, 1, 'in']},
-      'visible→hidden':   {_d: 300, s: [0, 1, 'in'], c: [0, 1, 'in']}
+      'visible→hidden': {_d: 300, s: [0, 1, 'in'], c: [0, 1, 'in']}
     };
   }
 }
