@@ -1,7 +1,7 @@
 class Entity {
   constructor(o = {}) {
     this._animate = this._animate.bind(this);
-    this.p = { x: 0, y: 0, r: 0, s: 1, o:1 };
+    this.p = { x: 0, y: 0, r: 0, s: 1, o: 1 };
     this.cacheStates();
     this.cacheAnimations();
     this.setStateI(o.s);
@@ -58,6 +58,7 @@ class Entity {
 
   setState(state) {
     if (state === this._state) return;
+    this.setStateI(this._state);
     this._a = null;
     TICKER.remove(this._animate);
     var s = this.getState(state);

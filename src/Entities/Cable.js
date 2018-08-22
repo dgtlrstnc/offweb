@@ -33,7 +33,8 @@ class Cable extends Entity {
     this.target.makeFixed();
   }
 
-  resetAt(at) {
+  reset(at) {
+    if (!at) at = {x: 0, y: 1};
     this.p.p0 = {x: at.x, y: at.y};
     this.p.p1 = {x: at.x, y: at.y};
     [this.target].concat(this.points).forEach((p)=> {
@@ -54,7 +55,7 @@ class Cable extends Entity {
     this.beginRender(ctx);
     ctx.beginPath();
     ctx.strokeStyle = 'hsl(0, 0%, ' + this.p.c * 100 + '%)';
-    ctx.lineWidth = 5;
+    ctx.lineWidth = CABLE_THICKNESS;
     ctx.lineCap = 'round';
     ctx.moveTo(ps[0].x*W/2, ps[0].y*W/2);
     ps.forEach((p, i) => {

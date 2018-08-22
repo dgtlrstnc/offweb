@@ -3,7 +3,7 @@ var glyphsImg = document.getElementById('font');
 
 class Counter extends Entity {
   constructor() {
-    super();
+    super({s: 'normal'});
     this.p.n = 0;
   }
 
@@ -28,5 +28,19 @@ class Counter extends Entity {
     if (this.p.n !== n) {
       this.animateTo({n}, {_d: 1500});
     }
+  }
+
+  states() {
+    return {
+      normal: {s: 0.5},
+      focus: {s: 1}
+    };
+  }
+
+  animations() {
+    return {
+      'normal→focus': {_d: 2000, s: [0, 1, 'in']},
+      'focus→normal': {_d: 2000, s: [0, 1, 'in']}
+    };
   }
 }

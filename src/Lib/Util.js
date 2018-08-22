@@ -56,5 +56,6 @@ flatten = list => list.reduce(
 
 
 // Rendering -------------------------------------
-pxToUnits = (px)=> px/W*2;
-unitsToPx = (u)=> u*W/2;
+pxToUnits = (px)=> px/W*2
+unitsToPx = (u)=> u*W/2
+nToA = (a)=> modulate(round(modulate(a, 0, GUIDES_AMOUNT)), 0, PI2, 0, GUIDES_AMOUNT)
