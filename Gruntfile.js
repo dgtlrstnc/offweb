@@ -20,6 +20,7 @@ module.exports = function (grunt) {
           'src/Lib/Pool.js',
 
           'src/Entities/Bg.js',
+          'src/Entities/Btn.js',
           'src/Entities/Mask.js',
           'src/Entities/Counter.js',
           'src/Entities/Text.js',

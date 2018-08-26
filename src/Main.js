@@ -9,6 +9,7 @@ G = new Game({
   canvas: 'game',
   setup: ()=> {
     E.bg = new Bg();
+    E.startBtn = new Btn();
     E.mask = new Mask();
     E.timeCounter = new Counter();
     E.pointsLogs = new TextE();
@@ -26,8 +27,5 @@ G = new Game({
   }
 });
 
+G.setState('start');
 G.start();
-
-document.querySelector('.quit').addEventListener('click', (e)=> {
-  G.setState(G.state === 'start' ? 'game' : 'start');
-});

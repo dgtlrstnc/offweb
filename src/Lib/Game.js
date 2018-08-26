@@ -11,8 +11,7 @@ class Game {
 
     TICKER.add(this.render);
 
-    this.setup()
-    this.setState('game');
+    this.setup();
     this.resize();
   }
 

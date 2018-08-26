@@ -13,30 +13,35 @@ stateBads = 0;
 startT = null;
 lastIntersect = null;
 lastBadTapAt = -1000;
+nextBatchIsSpecial = false;
 
 // Hooks -------------------------------------
 lastHookId = 0;
 badHooksAt = [];
+specialHookAt = 0;
 currentCombo = [];
 lastComboHookId = null;
 function createHook(o) {
   lastHookId++;
   return extend({
     id: lastHookId,
-    a: rand()*PI2,
+    a: nToA(rand()),
     x: 0,
     y: 0,
     r: modulate(rand(), 0.2, 0.7),
+    currentR: 0,
     active: true,
     connected: false,
     missed: false,
     startAt: 0,
     d: 1000+rand()*200,
     state: 'hidden',
-    bad: !!badHooks.find((n)=>n===lastHookId)
+    bad: !!badHooks.find((n)=>n===lastHookId)&&!o.special,
+    special: false,
+    eased: true
   }, o);
 };
-createBatch = {
+createHooksBatch = {
   arc: (startAt)=> {
     var n = floor(modulate(rand(), 3, 6));
     var r = modulate(rand(), 0.4, 0.7);
@@ -70,25 +75,41 @@ createBatch = {
         startAt
       });
     });
-
+  },
+  special: (startAt)=> {
+    var a = nToA(rand());
+    var n = GUIDES_AMOUNT;
+    return range(n).map((i)=> {
+      return createHook({
+        a: a+i*PI2*2/n,
+        startAt: startAt+100*i,
+        d: 8000,
+        eased: false,
+      });
+    });
   }
 };
-function resetHooks(ctx) {
+function resetHooks() {
   HOOKS = [];
   lastComboHookId = 0;
   badHooks = range(round(HOOKS_AMOUNT/BAD_HOOKS_FRQ)).map((i)=>round(i*BAD_HOOKS_FRQ+rand()*BAD_HOOKS_FRQ/3));
   badHooks.shift();
-  var i = 0;
-  var startAt = 3000;
-  while (i < HOOKS_AMOUNT) {
-    var batch = createBatch[['arc', 'line', 'polygon'][round(rand()*2)]](startAt);
-    // var batch = createBatch.polygon(startAt);
-    HOOKS = HOOKS.concat(batch);
-    i += batch.length;
-    startAt += 2000;
-  }
+  specialHookAt = modulate(rand(), GAME_DURATION*0.3, GAME_DURATION*0.7);
+  // specialHookAt = 5000;
   E.hooks.p = HOOKS;
 };
+function addHooksBatch() {
+    var batch = createHooksBatch[['arc', 'line', 'polygon'][round(rand()*2)]](t+500);
+    // var batch = createHooksBatch.polygon(startAt);
+    HOOKS = HOOKS.concat(batch);
+}
+function addSpecialHooksBatch() {
+    var batch = createHooksBatch.special(t);
+    HOOKS = HOOKS.concat(batch);
+}
+function getVisibleHooks() {
+  return HOOKS.filter((h)=> h.currentR < ARENA_RADIUS + 0.1);
+}
 
 // Cables -------------------------------------------
 activeCableI = 0;
@@ -115,11 +136,32 @@ function updateLogic(ms) {
   t = ms - startT;
 
   // countdown ----------------------------------------
-  COUNTDOWN = modulate(t/1000, 4, 1, 0, 3);
+  COUNTDOWN = modulate(t, 4, 1, 0, COUNTDOWN_DURATION);
 
   // game over ----------------------------------------
-  if (t > GAME_DURATION+3000) {
+  if (t > GAME_DURATION+COUNTDOWN_DURATION) {
     return G.setState('gameover');
+  }
+
+  // add new batch ------------------------------------
+  if (t > COUNTDOWN_DURATION && getVisibleHooks().length === 0) {
+    if (nextBatchIsSpecial) {
+      addSpecialHooksBatch();
+      nextBatchIsSpecial = false;
+    } else {
+      addHooksBatch();
+    }
+  }
+
+  // special Hook -------------------------------------
+  if (specialHookAt < t) {
+    HOOKS.push(createHook({
+      special: true,
+      startAt: t,
+      eased: false,
+      d: SPECIAL_HOOK_DURATION
+    }));
+    specialHookAt = Infinity;
   }
 
   // drag active cable --------------------------------
@@ -138,17 +180,24 @@ function updateLogic(ms) {
     if (!h.connected) {
       if (tt < 0){
         h.active = false;
-      } else  if (tt <= 1) {
-        extend(h, {active: true, state: 'visible'});
-        r = h.currentR = h.r*easeOut(clamp(tt));
-      } else if (tt > HOOKS_PAUSE) {
-        tt -= HOOKS_PAUSE;
-        r = h.currentR = h.r+easeOut(clamp(tt));
+      } else {
+        if (h.eased) {
+          if (tt <= 1) {
+            extend(h, {active: true, state: 'visible'});
+            r = h.currentR = h.r*easeOut(clamp(tt));
+          } else if (tt > HOOKS_PAUSE) {
+            tt -= HOOKS_PAUSE;
+            r = h.currentR = h.r+easeOut(clamp(tt));
+          }
+        } else {
+            extend(h, {active: true, state: 'visible'});
+            r = h.currentR = 2*easeOut(clamp(tt));
+        }
       }
     } else if (h.connected && h.comboAt) {
       var delay = 100;
       tt = modulate(t, 0, 1, h.comboAt + delay, h.comboAt + h.d + delay);
-      r = h.hitR+(2)*easeOut(clamp(tt));
+      r = h.currentR = h.hitR+(2)*easeOut(clamp(tt));
     }
     if (r !== null) {
       h.x = r*sin(h.a);
@@ -182,7 +231,7 @@ function updateLogic(ms) {
         }).sort((a, b)=> a.d - b.d );
       }
     }
-    if (dH) {
+    if (dH&&dH[0]) {
       var d = dH[0].d;
       var closestH = HOOKS[dH[0].i];
       if (d < 0.05 && closestH.state !== 'used' && closestH.state !== 'hidden') {
@@ -191,7 +240,7 @@ function updateLogic(ms) {
           extend(closestH, {
             connected: t,
             state: 'used',
-            hitR: closestH.currentR
+            hitR: closestH.currentR,
           });
           stateConnected++;
           currentCombo.push(closestH);
@@ -213,11 +262,17 @@ function updateLogic(ms) {
           });
           E.cables.entities[activeCableI].reset(p);
           lastIntersect = t;
+          if (closestH.special) {
+            nextBatchIsSpecial = true;
+            E.mask.setState('normal');
+            E.mask.setState('special');
+          }
         } else {
           extend(closestH, {
             connected: t,
             state: 'hidden',
-            hitR: closestH.currentR
+            hitR: closestH.currentR,
+            currentR: 3
           });
           E.mask.setState('normal');
           E.mask.setState('bad');
@@ -265,14 +320,17 @@ GameState = {
   enter: (ctx)=> {
     startT = performance.now();
     E.timeCounter.p.n = GAME_DURATION/1000;
+    LOG = {text: '', startAt: 0};
     stateConnected = 0;
     stateCombos = [];
     lastBadTapAt = -10000;
+    nextBatchIsSpecial = false;
     LOG = {text: '', startAt: 0};
     resetHooks(ctx);
     resetCables(ctx);
     E.pointsCounter.setState('normal');
     E.mask.setState('normal');
+    extend(E.pointsCounter.p, {x: 0.7, y: -1.15, s: 0.25});
   },
 
   loop: (ctx, ms, dt)=> {
@@ -291,7 +349,7 @@ GameState = {
 
     extend(E.timeCounter.p, {
       x: -0.7, y: -1.15, v: !(COUNTDOWN > 1),
-      n: floor((GAME_DURATION+4000-t)/1000)
+      n: ceil((GAME_DURATION+COUNTDOWN_DURATION-t)/1000)
     });
     E.timeCounter.render(ctx);
 
@@ -304,9 +362,7 @@ GameState = {
     var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c*c), 0);
     points -= stateBads*POINTS_BAD;
     G.points = points;
-    extend(E.pointsCounter.p, {
-      x: 0.7, y: -1.15, v: !(COUNTDOWN > 1),
-    });
+    extend(E.pointsCounter.p, {v: !(COUNTDOWN > 1)});
     E.pointsCounter.setNumber(clamp(points, 0, Infinity));
     E.pointsCounter.render(ctx);
 

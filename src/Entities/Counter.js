@@ -32,14 +32,16 @@ class Counter extends Entity {
   states() {
     return {
       normal: {s: 0.25},
-      focus: {s: 0.5}
+      focus:  {s: 0.6},
+      hidden: {s: 0}
     };
   }
 
   animations() {
     return {
       'normal→focus': {_d: 2000, s: [0, 1, 'in']},
-      'focus→normal': {_d: 2000, s: [0, 1, 'in']}
+      'focus→normal': {_d: 2000, s: [0, 1, 'in']},
+      'hidden→focus': {_d: 2000, s: [0, 1, 'in']}
     };
   }
 }

@@ -9,6 +9,8 @@ class Hook extends Entity {
     ctx.beginPath();
     if (this.p.bad) {
       ctx.fillStyle = COLOR_RED;
+    } else if (this.p.special) {
+      ctx.fillStyle = COLOR_BLUE;
     } else {
       ctx.fillStyle = 'hsl(0, 0%, ' + this.p.c * 100 + '%)';
     }

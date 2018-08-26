@@ -1,8 +1,5 @@
 next
 ----------------------------------------
-[ ] spiral bonus
-[ ] intro screen
-
 
 
 
@@ -30,7 +27,8 @@ done
 [x] bad connections
 [x] points logger
 [x] web design + gameover
-
+[x] spiral bonus
+[x] intro screen
 
 notes
 -------------------------------------------
