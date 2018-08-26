@@ -85,6 +85,7 @@ createHooksBatch = {
         startAt: startAt+100*i,
         d: 8000,
         eased: false,
+        bad: false
       });
     });
   }
@@ -125,7 +126,7 @@ function resetCables(ctx) {
       state: 'normal'
     };
   });
-  CABLES[0].active = true;
+  // CABLES[0].active = true;
   E.cables.entities.forEach(e=>e.reset())
   E.cables.p = CABLES;
   E.cables.render(ctx, 0, 0);
@@ -308,6 +309,7 @@ function onComboDone(t, knockedOut) {
   if (!currentCombo.length || lastComboHookId === last(currentCombo).id) return;
   if (currentCombo.length>1 && !knockedOut)
     extend(LOG, {t:'+'+currentCombo.length+'x'+currentCombo.length+'x'+currentCombo.length, startAt: t});
+  CABLES[activeCableI].active = false;
   lastComboHookId = last(currentCombo).id;
   currentCombo.forEach((h)=> h.comboAt = t);
   stateCombos.push(currentCombo.length-1);

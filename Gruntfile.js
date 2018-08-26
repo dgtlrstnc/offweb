@@ -49,7 +49,8 @@ module.exports = function (grunt) {
       build: {
         files: {
           'build/index.html': ['src/build.html'],
-          'build/Numbers.svg': ['src/Numbers.svg']
+          'build/Numbers.svg': ['src/Numbers.svg'],
+          'build/Letters.svg': ['src/Letters.svg']
         }
       }
     },
@@ -62,7 +63,8 @@ module.exports = function (grunt) {
         files: [
           { src: 'build/build.min.js' },
           { src: 'build/index.html' },
-          { src: 'build/Numbers.svg' }
+          { src: 'build/Numbers.svg' },
+          { src: 'build/Letters.svg' }
         ]
       }
     }

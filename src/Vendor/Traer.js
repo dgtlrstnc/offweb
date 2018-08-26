@@ -202,57 +202,57 @@ Spring.prototype.apply = function() {
 /**
  * A gravitational force between two particles
  */
-function Attraction(a, b, k, d) {
-	this.a = a;
-	this.b = b;
-	this.constant = k;
-	this.on = true;
-	this.distanceMin = d;
-	this.distanceMinSquared = d * d;
-}
-Attraction.prototype.apply = function() {
-
-	// Skip if force is off or if both particles are fixed
-	var a = this.a, b = this.b;
-	if (!this.on || (a.fixed && b.fixed)) {
-		return;
-	}
-
-	var a2bx = a.pos.x - b.pos.x;
-	var a2by = a.pos.y - b.pos.y;
-	var a2bz = a.pos.z - b.pos.z;
-
-	var a2bdistanceSquared = Math.max(a2bx * a2bx + a2by * a2by + a2bz * a2bz, this.distanceMinSquared);
-
-	var force = (this.constant * a.mass * b.mass) / a2bdistanceSquared;
-
-	var length = Math.sqrt(a2bdistanceSquared);
-
-	if (force === 0 || length === 0) {
-		a2bx = 0;
-		a2by = 0;
-		a2bz = 0;
-	}
-	else {
-		// make unit vector
-		a2bx /= length;
-		a2by /= length;
-		a2bz /= length;
-
-		// multiply by force
-		a2bx *= force;
-		a2by *= force;
-		a2bz *= force;
-	}
-
-	// apply
-	if (!a.fixed) {
-		a.force.add(-a2bx, -a2by, -a2bz);
-	}
-	if (!b.fixed) {
-		b.force.add(a2bx, a2by, a2bz);
-	}
-};
+// function Attraction(a, b, k, d) {
+// 	this.a = a;
+// 	this.b = b;
+// 	this.constant = k;
+// 	this.on = true;
+// 	this.distanceMin = d;
+// 	this.distanceMinSquared = d * d;
+// }
+// Attraction.prototype.apply = function() {
+//
+// 	// Skip if force is off or if both particles are fixed
+// 	var a = this.a, b = this.b;
+// 	if (!this.on || (a.fixed && b.fixed)) {
+// 		return;
+// 	}
+//
+// 	var a2bx = a.pos.x - b.pos.x;
+// 	var a2by = a.pos.y - b.pos.y;
+// 	var a2bz = a.pos.z - b.pos.z;
+//
+// 	var a2bdistanceSquared = Math.max(a2bx * a2bx + a2by * a2by + a2bz * a2bz, this.distanceMinSquared);
+//
+// 	var force = (this.constant * a.mass * b.mass) / a2bdistanceSquared;
+//
+// 	var length = Math.sqrt(a2bdistanceSquared);
+//
+// 	if (force === 0 || length === 0) {
+// 		a2bx = 0;
+// 		a2by = 0;
+// 		a2bz = 0;
+// 	}
+// 	else {
+// 		// make unit vector
+// 		a2bx /= length;
+// 		a2by /= length;
+// 		a2bz /= length;
+//
+// 		// multiply by force
+// 		a2bx *= force;
+// 		a2by *= force;
+// 		a2bz *= force;
+// 	}
+//
+// 	// apply
+// 	if (!a.fixed) {
+// 		a.force.add(-a2bx, -a2by, -a2bz);
+// 	}
+// 	if (!b.fixed) {
+// 		b.force.add(a2bx, a2by, a2bz);
+// 	}
+// };
 
 
 /**
@@ -536,11 +536,11 @@ ParticleSystem.prototype.makeSpring = function(a, b, k, d, l) {
 	this.springs.push(s);
 	return s;
 };
-ParticleSystem.prototype.makeAttraction = function(a, b, k, d) {
-	var m = new Attraction(a, b, k, d);
-	this.attractions.push(m);
-	return m;
-};
+// ParticleSystem.prototype.makeAttraction = function(a, b, k, d) {
+// 	var m = new Attraction(a, b, k, d);
+// 	this.attractions.push(m);
+// 	return m;
+// };
 ParticleSystem.prototype.clear = function() {
 	this.particles.clear();
 	this.springs.clear();
