@@ -75,7 +75,7 @@ class Cable extends Entity {
   states() {
     return {
       normal: {c: 1},
-      connected: {c: 0.2}
+      connected: {c: 0.7}
     };
   }
 

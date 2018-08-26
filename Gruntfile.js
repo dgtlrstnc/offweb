@@ -22,6 +22,7 @@ module.exports = function (grunt) {
           'src/Entities/Bg.js',
           'src/Entities/Mask.js',
           'src/Entities/Counter.js',
+          'src/Entities/Text.js',
           'src/Entities/Guides.js',
           'src/Entities/Hook.js',
           'src/Entities/Cable.js',

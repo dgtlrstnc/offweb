@@ -3,7 +3,7 @@ goReleasedT = false;
 GameoverState = {
   enter: ()=> {
     goReleasedT = false;
-    E.pointsCounter.setState('focus');
+    // E.pointsCounter.setState('focus');
     E.mask.setState('small');
   },
 
@@ -14,6 +14,7 @@ GameoverState = {
 
     E.mask.render(ctx, dt, ms);
 
+    E.timeCounter.render(ctx);
     E.pointsCounter.setNumber(clamp(G.points, 0, Infinity));
     E.pointsCounter.render(ctx);
 

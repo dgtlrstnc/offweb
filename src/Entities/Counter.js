@@ -1,4 +1,4 @@
-var glyphSize = [40, 80];
+var glyphSize = [80, 160];
 var glyphsImg = document.getElementById('font');
 
 class Counter extends Entity {
@@ -10,7 +10,6 @@ class Counter extends Entity {
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     var n = floor(this.p.n);
-    // var n = 1;
     n = n.toString().split('');
     var size = [n.length*glyphSize[0], glyphSize[1]];
     n.forEach((d, i)=> {
@@ -18,7 +17,7 @@ class Counter extends Entity {
       var dx = modulate(i, -size[0]/2, size[0]/2, 0, n.length);
       ctx.drawImage(glyphsImg,
         sx, 0, glyphSize[0], glyphSize[1],
-        dx, 0, glyphSize[0], glyphSize[1]
+        dx, -glyphSize[1]/2, glyphSize[0], glyphSize[1]
       );
     });
     this.endRender(ctx);
@@ -32,8 +31,8 @@ class Counter extends Entity {
 
   states() {
     return {
-      normal: {s: 0.5},
-      focus: {s: 1}
+      normal: {s: 0.25},
+      focus: {s: 0.5}
     };
   }
 

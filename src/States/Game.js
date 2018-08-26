@@ -2,21 +2,24 @@ var vA = new Vector(), vB = new Vector(), vC = new Vector();
 
 HOOKS = [];
 CABLES = [];
+COUNTDOWN = 0;
 POINTER = {x:0, y:0, state: 'hidden'};
+LOG = {text: '', startAt: 0};
 
 t = GAME_DURATION;
 stateConnected = 0;
 stateCombos = [];
 stateBads = 0;
-activeCableI = 0;
 startT = null;
 lastIntersect = null;
-currentCombo = [];
-lastComboHookId = null;
+lastBadTapAt = -1000;
+
+// Hooks -------------------------------------
 lastHookId = 0;
 badHooksAt = [];
-
-createHook = (o)=> {
+currentCombo = [];
+lastComboHookId = null;
+function createHook(o) {
   lastHookId++;
   return extend({
     id: lastHookId,
@@ -35,7 +38,7 @@ createHook = (o)=> {
 };
 createBatch = {
   arc: (startAt)=> {
-    var n = floor(modulate(rand(), 3, 5));
+    var n = floor(modulate(rand(), 3, 6));
     var r = modulate(rand(), 0.4, 0.7);
     var a = nToA(rand());
     return range(n).map((i)=> {
@@ -70,7 +73,26 @@ createBatch = {
 
   }
 };
-resetCables = (ctx)=> {
+function resetHooks(ctx) {
+  HOOKS = [];
+  lastComboHookId = 0;
+  badHooks = range(round(HOOKS_AMOUNT/BAD_HOOKS_FRQ)).map((i)=>round(i*BAD_HOOKS_FRQ+rand()*BAD_HOOKS_FRQ/3));
+  badHooks.shift();
+  var i = 0;
+  var startAt = 3000;
+  while (i < HOOKS_AMOUNT) {
+    var batch = createBatch[['arc', 'line', 'polygon'][round(rand()*2)]](startAt);
+    // var batch = createBatch.polygon(startAt);
+    HOOKS = HOOKS.concat(batch);
+    i += batch.length;
+    startAt += 2000;
+  }
+  E.hooks.p = HOOKS;
+};
+
+// Cables -------------------------------------------
+activeCableI = 0;
+function resetCables(ctx) {
   activeCableI = 0;
   CABLES = Array(100).fill().map((___, i)=> {
     return {
@@ -87,27 +109,17 @@ resetCables = (ctx)=> {
   E.cables.p = CABLES;
   E.cables.render(ctx, 0, 0);
 };
-resetHooks = (ctx)=> {
-  HOOKS = [];
-  lastComboHookId = 0;
-  badHooks = range(round(HOOKS_AMOUNT/BAD_HOOKS_FRQ)).map((i)=>round(i*BAD_HOOKS_FRQ+rand()*BAD_HOOKS_FRQ/3));
-  badHooks.shift();
-  var i = 0;
-  var startAt = 1000;
-  while (i < HOOKS_AMOUNT) {
-    var batch = createBatch[['arc', 'line', 'polygon'][round(rand()*2)]](startAt);
-    // var batch = createBatch.polygon(startAt);
-    HOOKS = HOOKS.concat(batch);
-    i += batch.length;
-    startAt += 2000;
-  }
-  E.hooks.p = HOOKS;
-};
-updateLogic = (ms)=> {
+
+// Update ----------------------------------------------
+function updateLogic(ms) {
   t = ms - startT;
+
+  // countdown ----------------------------------------
+  COUNTDOWN = modulate(t/1000, 4, 1, 0, 3);
+
   // game over ----------------------------------------
-  if (t > GAME_DURATION) {
-    G.setState('gameover');
+  if (t > GAME_DURATION+3000) {
+    return G.setState('gameover');
   }
 
   // drag active cable --------------------------------
@@ -155,69 +167,76 @@ updateLogic = (ms)=> {
     }
   });
   // handle intersections ----------------------------
+  var knockedOut = (lastBadTapAt+KNOCKOUT_DURATION >= t);
   var sinceLastIntersect = t - lastIntersect;
-  if (T[0]) {
-    var dC = vA.set(T[0]).distanceTo(vB.set(0, 0, 0));
-    if (dC > 0.25 && dC < ARENA_RADIUS) {
-      // find and order hooks by distance to touch
-      var dH = HOOKS.map((h, i)=> {
-        // index and distance
-        return {
-          i, d: (h.active && h.state === 'visible' && !h.connected) ? vA.set(h.x, h.y, 0).distanceSquaredTo(vB.set(T[0])) : Infinity,
-        };
-      }).sort((a, b)=> a.d - b.d );
+  if (!knockedOut) {
+    if (T[0]) {
+      var dC = vA.set(T[0]).distanceTo(vB.set(0, 0, 0));
+      if (dC > 0.25 && dC < ARENA_RADIUS) {
+        // find and order hooks by distance to touch
+        var dH = HOOKS.map((h, i)=> {
+          // index and distance
+          return {
+            i, d: (h.active && h.state === 'visible' && !h.connected) ? vA.set(h.x, h.y, 0).distanceSquaredTo(vB.set(T[0])) : Infinity,
+          };
+        }).sort((a, b)=> a.d - b.d );
+      }
     }
-  }
-  if (dH) {
-    var d = dH[0].d;
-    var closestH = HOOKS[dH[0].i];
-    if (d < 0.05 && closestH.state !== 'used' && closestH.state !== 'hidden') {
-      if (!closestH.bad) {
-        var p = {x: closestH.x, y: closestH.y, z: 0};
-        extend(closestH, {
-          connected: t,
-          state: 'used',
-          hitR: closestH.currentR
-        });
-        stateConnected++;
-        currentCombo.push(closestH);
-        if (sinceLastIntersect < COMBO_DELTA) {
-          extend(CABLE, {
-            p1: p,
-            id1: closestH.id,
-            state: 'connected'
+    if (dH) {
+      var d = dH[0].d;
+      var closestH = HOOKS[dH[0].i];
+      if (d < 0.05 && closestH.state !== 'used' && closestH.state !== 'hidden') {
+        if (!closestH.bad) {
+          var p = {x: closestH.x, y: closestH.y, z: 0};
+          extend(closestH, {
+            connected: t,
+            state: 'used',
+            hitR: closestH.currentR
           });
-          activeCableI++;
+          stateConnected++;
+          currentCombo.push(closestH);
+          extend(LOG, {t:'+'+currentCombo.length, startAt: t});
+          if (sinceLastIntersect < COMBO_DELTA) {
+            extend(CABLE, {
+              p1: p,
+              id1: closestH.id,
+              state: 'connected'
+            });
+            activeCableI++;
+          }
+          CABLE = CABLES[activeCableI];
+          extend(CABLE, {
+            active: true,
+            p0: p,
+            p1: p,
+            id0: closestH.id
+          });
+          E.cables.entities[activeCableI].reset(p);
+          lastIntersect = t;
+        } else {
+          extend(closestH, {
+            connected: t,
+            state: 'hidden',
+            hitR: closestH.currentR
+          });
+          E.mask.setState('normal');
+          E.mask.setState('bad');
+          extend(LOG, {t:'-'+POINTS_BAD, startAt: t});
+          knockedOut = true;
+          lastBadTapAt = t;
+          stateBads++;
+          lastIntersect = -10000;
+          CABLE.active = false;
         }
-        CABLE = CABLES[activeCableI];
-        extend(CABLE, {
-          active: true,
-          p0: p,
-          p1: p,
-          id0: closestH.id
-        });
-        E.cables.entities[activeCableI].reset(p);
-        lastIntersect = t;
-      } else {
-        extend(closestH, {
-          connected: t,
-          state: 'hidden',
-          hitR: closestH.currentR
-        });
-        E.mask.setState('normal');
-        E.mask.setState('bad');
-        stateBads++;
-        lastIntersect = -10000;
-        CABLE.active = false;
       }
     }
   }
   sinceLastIntersect = t - lastIntersect;
   if (sinceLastIntersect > COMBO_DELTA) {
-    onComboDone(t);
+    onComboDone(t, knockedOut);
   }
   if (!T[0]) {
-    onComboDone(t);
+    onComboDone(t, knockedOut);
     lastIntersect = -10000;
     CABLE.active = false;
   }
@@ -230,13 +249,17 @@ updateLogic = (ms)=> {
     POINTER.state = 'hidden';
   }
 };
-onComboDone = (t)=> {
+function onComboDone(t, knockedOut) {
   if (!currentCombo.length || lastComboHookId === last(currentCombo).id) return;
+  if (currentCombo.length>1 && !knockedOut)
+    extend(LOG, {t:'+'+currentCombo.length+'x'+currentCombo.length+'x'+currentCombo.length, startAt: t});
   lastComboHookId = last(currentCombo).id;
   currentCombo.forEach((h)=> h.comboAt = t);
   stateCombos.push(currentCombo.length-1);
   currentCombo = [];
 };
+
+// -----------------------------------------------------
 
 GameState = {
   enter: (ctx)=> {
@@ -244,6 +267,8 @@ GameState = {
     E.timeCounter.p.n = GAME_DURATION/1000;
     stateConnected = 0;
     stateCombos = [];
+    lastBadTapAt = -10000;
+    LOG = {text: '', startAt: 0};
     resetHooks(ctx);
     resetCables(ctx);
     E.pointsCounter.setState('normal');
@@ -264,18 +289,32 @@ GameState = {
 
     E.mask.render(ctx, dt, ms);
 
+    extend(E.timeCounter.p, {
+      x: -0.7, y: -1.15, v: !(COUNTDOWN > 1),
+      n: floor((GAME_DURATION+4000-t)/1000)
+    });
+    E.timeCounter.render(ctx);
+
+    extend(E.pointsLogs.p, {
+      x: 0, y: -1.15, v: (LOG.startAt+1000>t), s: 0.2,
+      t: LOG.t
+    });
+    E.pointsLogs.render(ctx, dt, ms);
+
     var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c*c), 0);
-    points -= stateBads*10;
+    points -= stateBads*POINTS_BAD;
     G.points = points;
-    extend(E.pointsCounter.p, { x: 0, y: -1.3 });
+    extend(E.pointsCounter.p, {
+      x: 0.7, y: -1.15, v: !(COUNTDOWN > 1),
+    });
     E.pointsCounter.setNumber(clamp(points, 0, Infinity));
     E.pointsCounter.render(ctx);
 
-    extend(E.timeCounter.p, {
-      x: -0.5, y: -1.3,
-      n: round((GAME_DURATION-t)/1000)
+    extend(E.countDownCounter.p, {
+      x: 0, y: -0.1, s: 1, v: (COUNTDOWN > 1),
+      n: COUNTDOWN
     });
-    E.timeCounter.render(ctx);
+    E.countDownCounter.render(ctx);
 
     extend(E.pointer.p, POINTER);
     E.pointer.setState(POINTER.state);
