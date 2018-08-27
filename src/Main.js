@@ -16,8 +16,8 @@ G = new Game({
     E.pointsCounter = new Counter();
     E.countDownCounter = new Counter();
     E.guides = new Guides();
-    E.hooks = new Pool(Hook, 100);
-    E.cables = new Pool(Cable, 100);
+    E.hooks = new Pool(Hook, HOOKS_AMOUNT);
+    E.cables = new Pool(Cable, HOOKS_AMOUNT);
     E.pointer = new Pointer();
   },
   states: {

@@ -1,6 +1,8 @@
 next
 ----------------------------------------
-
+[ ] add 2 types of special (3 total)
+[ ] add points for perfect
+[ ] fade out cables
 
 
 

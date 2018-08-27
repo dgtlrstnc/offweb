@@ -46,7 +46,7 @@ createHooksBatch = {
     var n = floor(modulate(rand(), 3, 6));
     var r = modulate(rand(), 0.4, 0.7);
     var a = nToA(rand());
-    return range(n).map((i)=> {
+    return mapN(n, (i)=> {
       return createHook({
         a: a+i*PI*4/GUIDES_AMOUNT,
         r,
@@ -54,21 +54,21 @@ createHooksBatch = {
       });
     });
   },
-  line: (startAt)=> {
-    var a = nToA(rand());
-    return range(4).map((i)=> {
-      return createHook({
-        a: (i<2) ? a : a+PI,
-        r: (i%2) ? 0.3 : 0.6,
-        startAt
-      });
-    });
-  },
+  // line: (startAt)=> {
+  //   var a = nToA(rand());
+  //   return range(4).map((i)=> {
+  //     return createHook({
+  //       a: (i<2) ? a : a+PI,
+  //       r: (i%2) ? 0.3 : 0.6,
+  //       startAt
+  //     });
+  //   });
+  // },
   polygon: (startAt)=> {
     var n = rand() < 0.5 ? 3 : 6;
     var a = nToA(rand());
     var r = modulate(rand(), 0.3, 0.7);
-    return range(n).map((i)=> {
+    return mapN(n, (i)=> {
       return createHook({
         a: a+i*PI2/n,
         r,
@@ -76,13 +76,97 @@ createHooksBatch = {
       });
     });
   },
+  weird: (startAt)=> {
+    var n = 3;
+    var a = nToA(rand());
+    return mapN(n, (i)=> {
+      return createHook({
+        a: a+i*PI2/n,
+        r: 0.4,
+        startAt
+      });
+    }).concat(mapN(n, (i)=> {
+      return createHook({
+        a: PI2/GUIDES_AMOUNT+a+i*PI2*2/GUIDES_AMOUNT,
+        r: 0.7,
+        startAt
+      });
+    }));
+  },
+  weirdStar: (startAt)=> {
+    var n = 3;
+    var a = nToA(rand());
+    return mapN(n, (i)=> {
+      return createHook({
+        a: a+i*PI2/n,
+        r: 0.4,
+        startAt
+      });
+    }).concat(mapN(n, (i)=> {
+      return createHook({
+        a: (PI2/GUIDES_AMOUNT)+a+i*PI2/n,
+        r: 0.7,
+        startAt
+      });
+    }));
+  },
+  triangle: (startAt)=> {
+    var n = 3;
+    var a = nToA(rand());
+    return mapN(n, (i)=> {
+      return createHook({
+        a: a+i*PI2/n,
+        r: 0.4,
+        startAt
+      });
+    }).concat(mapN(n, (i)=> {
+      return createHook({
+        a: (PI2*3/GUIDES_AMOUNT)+a+i*PI2/n,
+        r: 0.7,
+        startAt
+      });
+    }));
+  },
+  star: (startAt)=> {
+    var n = 6;
+    var a = nToA(rand());
+    return mapN(n, (i)=> {
+      return createHook({
+        a: a+i*PI2/n,
+        r: 0.4,
+        startAt
+      });
+    }).concat(mapN(n, (i)=> {
+      return createHook({
+        a: (PI2*2/GUIDES_AMOUNT)+a+i*PI2/n,
+        r: 0.7,
+        startAt
+      });
+    }));
+  },
+  doubleArc: (startAt)=> {
+    var a = nToA(rand());
+    return mapN(3, (i)=> {
+      return createHook({
+        a: a+i*PI2*2/GUIDES_AMOUNT,
+        r: 0.4,
+        startAt
+      });
+    }).concat(mapN(3, (i)=> {
+      return createHook({
+        a: PI+a+i*PI2*2/GUIDES_AMOUNT,
+        r: 0.7,
+        startAt
+      });
+    }));
+  },
   special: (startAt)=> {
     var a = nToA(rand());
-    var n = GUIDES_AMOUNT;
+    var n = GUIDES_AMOUNT*2;
     return range(n).map((i)=> {
       return createHook({
         a: a+i*PI2*2/n,
-        startAt: startAt+100*i,
+        startAt: startAt+20*i,
         d: 8000,
         eased: false,
         bad: false
@@ -100,8 +184,10 @@ function resetHooks() {
   E.hooks.p = HOOKS;
 };
 function addHooksBatch() {
-    var batch = createHooksBatch[['arc', 'line', 'polygon'][round(rand()*2)]](t+500);
-    // var batch = createHooksBatch.polygon(startAt);
+    var batch = createHooksBatch[
+      keys(createHooksBatch)[round(rand()*(keys(createHooksBatch).length-2))]
+    ](t+500);
+    // var batch = createHooksBatch.special(t+500);
     HOOKS = HOOKS.concat(batch);
 }
 function addSpecialHooksBatch() {
@@ -308,7 +394,7 @@ function updateLogic(ms) {
 function onComboDone(t, knockedOut) {
   if (!currentCombo.length || lastComboHookId === last(currentCombo).id) return;
   if (currentCombo.length>1 && !knockedOut)
-    extend(LOG, {t:'+'+currentCombo.length+'x'+currentCombo.length+'x'+currentCombo.length, startAt: t});
+    extend(LOG, {t:'+'+currentCombo.length+'x'+currentCombo.length, startAt: t});
   CABLES[activeCableI].active = false;
   lastComboHookId = last(currentCombo).id;
   currentCombo.forEach((h)=> h.comboAt = t);
@@ -361,7 +447,7 @@ GameState = {
     });
     E.pointsLogs.render(ctx, dt, ms);
 
-    var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c*c), 0);
+    var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c), 0);
     points -= stateBads*POINTS_BAD;
     G.points = points;
     extend(E.pointsCounter.p, {v: !(COUNTDOWN > 1)});

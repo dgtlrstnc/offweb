@@ -49,8 +49,7 @@ module.exports = function (grunt) {
       build: {
         files: {
           'build/index.html': ['src/build.html'],
-          'build/Numbers.svg': ['src/Numbers.svg'],
-          'build/Letters.svg': ['src/Letters.svg']
+          'build/Numbers.svg': ['src/Numbers.svg']
         }
       }
     },
@@ -58,13 +57,13 @@ module.exports = function (grunt) {
       build: {
         options: {
           archive: 'build/build.zip',
-          mode: 'zip'
+          mode: 'zip',
+          level: 8
         },
         files: [
           { src: 'build/build.min.js' },
           { src: 'build/index.html' },
-          { src: 'build/Numbers.svg' },
-          { src: 'build/Letters.svg' }
+          { src: 'build/Numbers.svg' }
         ]
       }
     }

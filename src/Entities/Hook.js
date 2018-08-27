@@ -1,7 +1,6 @@
 class Hook extends Entity {
   constructor() {
     super({s: 'hidden'});
-    this.r = 10;
   }
 
   render(ctx, dt, ms) {
@@ -9,7 +8,7 @@ class Hook extends Entity {
     ctx.beginPath();
     var color = (this.p.bad) ? COLOR_RED : ((this.p.special) ? COLOR_BLUE : `hsl(0, 0%, ${this.p.c * 100}%)`);
     ctx.fillStyle = color;
-    ctx.arc(0, 0, this.r, 0, PI2);
+    ctx.arc(0, 0, HOOK_RADIUS, 0, PI2);
     ctx.fill();
     this.endRender(ctx);
   }

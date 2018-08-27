@@ -33,6 +33,9 @@ times = (n, cb)=> {
 range = (n)=> {
    return Array(n).fill().map((_, i)=>i);
 };
+mapN = (n, cb)=> {
+   return range(n).map(cb)
+};
 easeIn = (t)=> t * t * t * t * t
 easeOut = (t)=> --t * t * t * t * t + 1
 easeInOut = (t)=> t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t
