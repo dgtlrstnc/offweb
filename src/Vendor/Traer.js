@@ -578,12 +578,12 @@ ParticleSystem.prototype.applyForces = function() {
 	}
 
 };
-ParticleSystem.prototype.clearForces = function() {
-	var i;
-	for (i = 0; i < this.particles.length; i++) {
-		this.particles[i].clear();
-	}
-};
+// ParticleSystem.prototype.clearForces = function() {
+// 	var i;
+// 	for (i = 0; i < this.particles.length; i++) {
+// 		this.particles[i].clear();
+// 	}
+// };
 
 
 /**

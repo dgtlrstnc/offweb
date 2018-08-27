@@ -36,6 +36,6 @@ GameoverState = {
     }
   },
 
-  leave: ()=> {
-  }
+  // leave: ()=> {
+  // }
 };

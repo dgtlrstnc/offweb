@@ -1,19 +1,14 @@
 class Hook extends Entity {
-  constructor(r = 10) {
+  constructor() {
     super({s: 'hidden'});
-    this.r = r;
+    this.r = 10;
   }
 
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     ctx.beginPath();
-    if (this.p.bad) {
-      ctx.fillStyle = COLOR_RED;
-    } else if (this.p.special) {
-      ctx.fillStyle = COLOR_BLUE;
-    } else {
-      ctx.fillStyle = 'hsl(0, 0%, ' + this.p.c * 100 + '%)';
-    }
+    var color = (this.p.bad) ? COLOR_RED : ((this.p.special) ? COLOR_BLUE : `hsl(0, 0%, ${this.p.c * 100}%)`);
+    ctx.fillStyle = color;
     ctx.arc(0, 0, this.r, 0, PI2);
     ctx.fill();
     this.endRender(ctx);

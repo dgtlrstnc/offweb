@@ -379,7 +379,7 @@ GameState = {
     E.pointer.render(ctx);
   },
 
-  leave: ()=> {
-
-  }
+  // leave: ()=> {
+  //
+  // }
 };

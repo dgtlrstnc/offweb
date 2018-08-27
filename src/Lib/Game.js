@@ -28,7 +28,7 @@ class Game {
   }
 
   setState(state) {
-    if (this.state) this.states[this.state].leave(this.ctx);
+    // if (this.state) this.states[this.state].leave(this.ctx);
     this.state = state;
     this.states[this.state].enter(this.ctx);
   }
