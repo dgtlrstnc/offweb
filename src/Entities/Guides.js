@@ -6,15 +6,15 @@ class Guides extends Entity {
     times(GUIDES_AMOUNT*3, (i)=> {
       ctx.beginPath();
       var a = i*PI2/(GUIDES_AMOUNT*3);
-      ctx.moveTo(unitsToPx(sin(a)), unitsToPx(cos(a)));
-      ctx.lineTo(unitsToPx(-sin(a)), unitsToPx(-cos(a)));
+      ctx.moveTo(unitsToPx(2*sin(a)), unitsToPx(2*cos(a)));
+      ctx.lineTo(unitsToPx(-2*sin(a)), unitsToPx(-2*cos(a)));
       ctx.stroke();
     });
     times(GUIDES_AMOUNT/2, (i)=> {
       ctx.beginPath();
       var a = i*PI2/GUIDES_AMOUNT;
-      ctx.moveTo(unitsToPx(sin(a)), unitsToPx(cos(a)));
-      ctx.lineTo(unitsToPx(-sin(a)), unitsToPx(-cos(a)));
+      ctx.moveTo(unitsToPx(2*sin(a)), unitsToPx(2*cos(a)));
+      ctx.lineTo(unitsToPx(-2*sin(a)), unitsToPx(-2*cos(a)));
       ctx.stroke();
     });
     this.endRender(ctx);

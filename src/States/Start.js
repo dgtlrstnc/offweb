@@ -2,8 +2,9 @@ StartState = {
   enter: ()=> {
     extend(E.startBtn.p, {y: 0});
     extend(E.title.p, {y: -1.1, x: 0, s: 0.28});
-    extend(E.squares.p, {y: 1.1, x: -0.73});
-    extend(E.logos.p, {y: 1.25, x: 0.8});
+    extend(E.squares.p, {c: 0});
+    extend(E.logos.p, {c: 0});
+    E.radial.setState('start');
     E.startBtn.setStateI('hidden');
     E.startBtn.setState('normal');
   },

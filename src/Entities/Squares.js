@@ -7,6 +7,11 @@ SQUARES_W = SQUARES_SIZE * SQUARES_COLUMNS + (SQUARES_COLUMNS-1) * SQUARES_GUTTE
 SQUARES_H = SQUARES_SIZE * SQUARES_ROWS + (SQUARES_ROWS-1) * SQUARES_GUTTER;
 
 class Squares extends Entity {
+  constructor() {
+    super();
+    this.p.c = 0;
+  }
+
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     times(SQUARES_ROWS, (row)=> {
@@ -19,10 +24,10 @@ class Squares extends Entity {
     var x = modulate(col, -SQUARES_W/2, SQUARES_W/2, 0, SQUARES_COLUMNS),
         y = modulate(row, -SQUARES_H/2, SQUARES_H/2, 0, SQUARES_ROWS);
 
-    ctx.fillStyle = COLOR_BLACK;
+    ctx.fillStyle = (this.p.c === 0) ? COLOR_BLACK : COLOR_LIGHTGRAY;
     ctx.translate(x, y);
     ctx.fillRect(-SQUARES_SIZE/2, -SQUARES_SIZE/2, SQUARES_SIZE, SQUARES_SIZE);
-    ctx.fillStyle = COLOR_LIGHTGRAY;
+    ctx.fillStyle = (this.p.c === 0) ? COLOR_LIGHTGRAY : COLOR_BLACK;
     this[['drawCircle', 'drawHalfCircles', 'drawTriangle'][row]](ctx);
     ctx.translate(-x, -y);
   }

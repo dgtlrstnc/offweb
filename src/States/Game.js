@@ -4,7 +4,7 @@ HOOKS = [];
 CABLES = [];
 COUNTDOWN = 0;
 POINTER = {x:0, y:0, state: 'hidden'};
-LOG = {text: '', startAt: 0};
+// LOG = {text: '', startAt: 0};
 
 t = GAME_DURATION;
 stateConnected = 0;
@@ -331,7 +331,7 @@ function updateLogic(ms) {
           });
           stateConnected++;
           currentCombo.push(closestH);
-          extend(LOG, {t:'+'+currentCombo.length, startAt: t});
+          // extend(LOG, {t:'+'+currentCombo.length, startAt: t});
           if (sinceLastIntersect < COMBO_DELTA) {
             extend(CABLE, {
               p1: p,
@@ -351,8 +351,8 @@ function updateLogic(ms) {
           lastIntersect = t;
           if (closestH.special) {
             nextBatchIsSpecial = true;
-            E.mask.setState('normal');
-            E.mask.setState('special');
+            // E.mask.setState('normal');
+            // E.mask.setState('special');
           }
         } else {
           extend(closestH, {
@@ -361,9 +361,9 @@ function updateLogic(ms) {
             hitR: closestH.currentR,
             currentR: 3
           });
-          E.mask.setState('normal');
-          E.mask.setState('bad');
-          extend(LOG, {t:'-'+POINTS_BAD, startAt: t});
+          // E.mask.setState('normal');
+          // E.mask.setState('bad');
+          // extend(LOG, {t:'-'+POINTS_BAD, startAt: t});
           knockedOut = true;
           lastBadTapAt = t;
           stateBads++;
@@ -393,8 +393,8 @@ function updateLogic(ms) {
 };
 function onComboDone(t, knockedOut) {
   if (!currentCombo.length || lastComboHookId === last(currentCombo).id) return;
-  if (currentCombo.length>1 && !knockedOut)
-    extend(LOG, {t:'+'+currentCombo.length+'x'+currentCombo.length, startAt: t});
+  // if (currentCombo.length>1 && !knockedOut)
+  //   extend(LOG, {t:'+'+currentCombo.length+'x'+currentCombo.length, startAt: t});
   CABLES[activeCableI].active = false;
   lastComboHookId = last(currentCombo).id;
   currentCombo.forEach((h)=> h.comboAt = t);
@@ -407,18 +407,21 @@ function onComboDone(t, knockedOut) {
 GameState = {
   enter: (ctx)=> {
     startT = performance.now();
-    E.timeCounter.p.n = GAME_DURATION/1000;
-    LOG = {text: '', startAt: 0};
+    // E.timeCounter.p.n = GAME_DURATION/1000;
+    // LOG = {text: '', startAt: 0};
     stateConnected = 0;
     stateCombos = [];
     lastBadTapAt = -10000;
     nextBatchIsSpecial = false;
-    LOG = {text: '', startAt: 0};
     resetHooks(ctx);
     resetCables(ctx);
+
+    E.radial.setState('game');
+    extend(E.pointsCounter.p, {x: 0, y: -1, s: 0.55, c: 0});
     E.pointsCounter.setState('normal');
-    E.mask.setState('normal');
-    extend(E.pointsCounter.p, {x: 0.7, y: -1.15, s: 0.25});
+    extend(E.squares.p, {c: 0});
+    extend(E.logos.p, {c: 0});
+    // E.mask.setState('normal');
   },
 
   loop: (ctx, ms, dt)=> {
@@ -433,19 +436,22 @@ GameState = {
     E.hooks.p = HOOKS.filter((h)=>h.active);
     E.hooks.render(ctx, dt, ms);
 
-    E.mask.render(ctx, dt, ms);
+    // E.mask.render(ctx, dt, ms);
+    E.radial.render(ctx, dt, ms);
+    E.squares.render(ctx, dt, ms);
+    E.logos.render(ctx, dt, ms);
 
-    extend(E.timeCounter.p, {
-      x: -0.7, y: -1.15, v: !(COUNTDOWN > 1),
-      n: ceil((GAME_DURATION+COUNTDOWN_DURATION-t)/1000)
-    });
-    E.timeCounter.render(ctx);
+    // extend(E.timeCounter.p, {
+    //   x: -0.7, y: -1.15, v: !(COUNTDOWN > 1),
+    //   n: ceil((GAME_DURATION+COUNTDOWN_DURATION-t)/1000)
+    // });
+    // E.timeCounter.render(ctx);
 
-    extend(E.pointsLogs.p, {
-      x: 0, y: -1.15, v: (LOG.startAt+1000>t), s: 0.2,
-      t: LOG.t
-    });
-    E.pointsLogs.render(ctx, dt, ms);
+    // extend(E.pointsLogs.p, {
+    //   x: 0, y: -1.15, v: (LOG.startAt+1000>t), s: 0.2,
+    //   t: LOG.t
+    // });
+    // E.pointsLogs.render(ctx, dt, ms);
 
     var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c), 0);
     points -= stateBads*POINTS_BAD;
@@ -455,14 +461,17 @@ GameState = {
     E.pointsCounter.render(ctx);
 
     extend(E.countDownCounter.p, {
-      x: 0, y: -0.1, s: 1, v: (COUNTDOWN > 1),
+      s: 1, v: (COUNTDOWN > 1),
       n: COUNTDOWN
     });
     E.countDownCounter.render(ctx);
 
+    E.glitchPass.render(ctx, dt, ms);
+
     extend(E.pointer.p, POINTER);
     E.pointer.setState(POINTER.state);
     E.pointer.render(ctx);
+
   },
 
   // leave: ()=> {

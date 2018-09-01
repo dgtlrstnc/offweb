@@ -1,5 +1,6 @@
-var glyphSize = [80, 160];
-var glyphsImg = document.getElementById('sprite');
+COUNTER_GH = 160; // glyph height
+glyphWidths = [138, 87, 156, 171, 183, 147, 123, 142, 199, 128];
+glyphsImg = document.getElementById('sprite');
 
 class Counter extends Entity {
   constructor() {
@@ -10,15 +11,25 @@ class Counter extends Entity {
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     var n = floor(this.p.n);
+    // var n = 129;
     n = n.toString().split('');
-    var size = [n.length*glyphSize[0], glyphSize[1]];
+    var size = [
+      n.reduce((memo, d)=> {return memo + glyphWidths[~~d]}, 0),
+      COUNTER_GH
+    ];
     n.forEach((d, i)=> {
-      var sx = ~~d*glyphSize[0];
-      var dx = modulate(i, -size[0]/2, size[0]/2, 0, n.length);
+      var gW = glyphWidths[~~d];
+      // source
+      var sx = glyphWidths.slice(0, ~~d).reduce((memo, w)=>{return memo+w}, 0);
+      // destination
+      var dx = -size[0]/2+n.slice(0, i).reduce((memo, d)=> {return memo + glyphWidths[~~d]}, 0);
+
+      if (this.p.c === 1) ctx.globalCompositeOperation = 'xor';
       ctx.drawImage(glyphsImg,
-        sx, 0, glyphSize[0], glyphSize[1],
-        dx, -glyphSize[1]/2, glyphSize[0], glyphSize[1]
+        sx, 0, gW, COUNTER_GH,
+        dx, -COUNTER_GH/2, gW, COUNTER_GH
       );
+      ctx.globalCompositeOperation = 'source-over';
     });
     this.endRender(ctx);
   }

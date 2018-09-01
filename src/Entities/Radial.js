@@ -11,6 +11,12 @@ RADIAL_DS      = 8;
 class Radial extends Entity {
   render(ctx, dt, ms) {
     this.beginRender(ctx);
+    if (this._state === 'start') this.drawSmall(ctx, ms);
+    this.drawBig(ctx, ms);
+    this.endRender(ctx);
+  }
+
+  drawSmall(ctx, ms) {
     times(RADIAL_NS, (i)=> {
       this.renderCircle(
         ctx,
@@ -22,6 +28,8 @@ class Radial extends Entity {
         '#818181'
       );
     });
+  }
+  drawBig(ctx, ms) {
     times(RADIAL_NB, (i)=> {
       this.renderCircle(
         ctx,
@@ -33,7 +41,6 @@ class Radial extends Entity {
         '#838488'
       );
     });
-    this.endRender(ctx);
   }
   // offset angle, radius, thickness, divisioRADIAL_NS, color start, color end
   renderCircle(ctx, a, r, t, d, s, e) {
