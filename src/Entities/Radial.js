@@ -1,24 +1,41 @@
 RadialCache = {};
 
+RADIAL_SMALL_R = 1/2*ARENA_RADIUS;
+RADIAL_NB      = 4;  // amount Big
+RADIAL_DB      = 10; // divisioRADIAL_NS Big
+RADIAL_TB      = 40; // thickness Big
+RADIAL_NS      = 10; // amount Small
+RADIAL_TS      = RADIAL_SMALL_R/RADIAL_NS;
+RADIAL_DS      = 8;
+
 class Radial extends Entity {
   render(ctx, dt, ms) {
     this.beginRender(ctx);
-    var smallR = W/2*ARENA_RADIUS;
-    var nB = 4;  // amount Big
-    var dB = 10; // divisions Big
-    var tB = 40; // thickness Big
-    var nS = 10; // amount Small
-    var tS = smallR/nS;
-    var dS = 8;
-    times(nS, (i)=> {
-      this.renderCircle(ctx, ms/10000+i*0.1+i*0.1*ms/4000, tS*i, tS+2, dS, '#1A1A1A', '#818181');
+    times(RADIAL_NS, (i)=> {
+      this.renderCircle(
+        ctx,
+        ms/10000+i*0.1+i*0.1*ms/4000,
+        W*RADIAL_TS*i,
+        W*RADIAL_TS+2,
+        RADIAL_DS,
+        '#1A1A1A',
+        '#818181'
+      );
     });
-    times(nB, (i)=> {
-      this.renderCircle(ctx, i*0.2+(i+1)*0.1*ms/5000, smallR+tB*i, tB+2, dB, '#A7A8AC', '#838488');
+    times(RADIAL_NB, (i)=> {
+      this.renderCircle(
+        ctx,
+        i*0.2+(i+1)*0.1*ms/5000,
+        W*RADIAL_SMALL_R+RADIAL_TB*i,
+        RADIAL_TB+2,
+        RADIAL_DB,
+        '#A7A8AC',
+        '#838488'
+      );
     });
     this.endRender(ctx);
   }
-  // offset angle, radius, thickness, divisions, color start, color end
+  // offset angle, radius, thickness, divisioRADIAL_NS, color start, color end
   renderCircle(ctx, a, r, t, d, s, e) {
     const cacheKey = [r, t, d].map(round).join('-'); // hope s and e don't affect!
     let cached = RadialCache[cacheKey];
