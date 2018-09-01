@@ -1,6 +1,6 @@
 RadialCache = {};
 
-RADIAL_SMALL_R = 1/2*ARENA_RADIUS;
+RADIAL_SMALL_R = 0.45;
 RADIAL_NB      = 4;  // amount Big
 RADIAL_DB      = 10; // divisioRADIAL_NS Big
 RADIAL_TB      = 40; // thickness Big
@@ -26,10 +26,10 @@ class Radial extends Entity {
       this.renderCircle(
         ctx,
         i*0.2+(i+1)*0.1*ms/5000,
-        W*RADIAL_SMALL_R+RADIAL_TB*i,
+        W*RADIAL_SMALL_R+RADIAL_TB*i-2,
         RADIAL_TB+2,
         RADIAL_DB,
-        '#A7A8AC',
+        COLOR_LIGHTGRAY,
         '#838488'
       );
     });
