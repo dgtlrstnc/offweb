@@ -54,7 +54,8 @@ class Cable extends Entity {
     var ps = this.points.map((p)=>p.pos);
     this.beginRender(ctx);
     ctx.beginPath();
-    ctx.strokeStyle = 'hsl(0, 0%, ' + this.p.c * 100 + '%)';
+    // ctx.strokeStyle = 'hsl(0, 0%, ' + this.p.c * 100 + '%)';
+    ctx.strokeStyle = COLOR_PURPLE;
     ctx.lineWidth = CABLE_THICKNESS;
     ctx.lineCap = 'round';
     ctx.moveTo(ps[0].x*W/2, ps[0].y*W/2);

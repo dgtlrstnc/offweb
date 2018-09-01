@@ -6,7 +6,7 @@ class Hook extends Entity {
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     ctx.beginPath();
-    var color = (this.p.bad) ? COLOR_RED : ((this.p.special) ? COLOR_BLUE : `hsl(0, 0%, ${this.p.c * 100}%)`);
+    var color = (this.p.bad) ? COLOR_RED : ((this.p.special) ? COLOR_BLUE : COLOR_PURPLE);
     ctx.fillStyle = color;
     ctx.arc(0, 0, HOOK_RADIUS, 0, PI2);
     ctx.fill();
