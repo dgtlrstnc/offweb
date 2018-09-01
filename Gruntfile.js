@@ -32,6 +32,7 @@ module.exports = function (grunt) {
           'src/Entities/Cable.js',
           'src/Entities/Radial.js',
           'src/Entities/Pointer.js',
+          'src/Entities/GlitchPass.js',
 
           'src/States/Start.js',
           'src/States/Game.js',

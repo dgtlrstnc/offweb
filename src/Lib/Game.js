@@ -1,7 +1,7 @@
 W = H = offCtx = null;
 
 class Game {
-  constructor(options = {}) {
+  constructor(options) {
     this.render = this.render.bind(this);
 
     this.setup = options.setup;

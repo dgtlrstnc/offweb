@@ -23,6 +23,7 @@ G = new Game({
     E.cables = new Pool(Cable, HOOKS_AMOUNT);
     E.radial = new Radial();
     E.pointer = new Pointer();
+    E.glitchPass = new GlitchPass();
   },
   states: {
     start: StartState,
