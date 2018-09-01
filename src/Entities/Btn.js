@@ -2,11 +2,11 @@ class Btn extends Entity {
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     ctx.beginPath();
-    ctx.fillStyle = COLOR_WHITE;
+    ctx.fillStyle = COLOR_PURPLE
     ctx.arc(0, 0, 40, 0, PI2);
     ctx.fill();
     ctx.beginPath();
-    ctx.fillStyle = COLOR_BLACK;
+    ctx.fillStyle = COLOR_WHITE;
     ctx.moveTo(-15, -20);
     ctx.lineTo(25, 0);
     ctx.lineTo(-15, 20);

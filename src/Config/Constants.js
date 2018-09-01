@@ -21,6 +21,7 @@ SPRING_DAMPING = 0.01;
 // Design --------------------------------------
 CABLE_THICKNESS = 3;
 HOOK_RADIUS = 8;
+COLOR_PURPLE = '#B788D6';
 COLOR_RED = '#F33';
 COLOR_BLUE = '#69BAFF';
 COLOR_WHITE = '#FFF';

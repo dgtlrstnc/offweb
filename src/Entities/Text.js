@@ -1,5 +1,5 @@
 glyphSize = [80, 160];
-glyphsImg = document.getElementById('font');
+glyphsImg = document.getElementById('sprite');
 charsOrder = ['x', '+', '-'];
 
 // TODO

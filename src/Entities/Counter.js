@@ -1,5 +1,5 @@
 var glyphSize = [80, 160];
-var glyphsImg = document.getElementById('font');
+var glyphsImg = document.getElementById('sprite');
 
 class Counter extends Entity {
   constructor() {

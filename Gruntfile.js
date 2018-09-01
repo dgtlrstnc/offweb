@@ -20,6 +20,7 @@ module.exports = function (grunt) {
           'src/Lib/Pool.js',
 
           'src/Entities/Bg.js',
+          'src/Entities/Title.js',
           'src/Entities/Btn.js',
           'src/Entities/Mask.js',
           'src/Entities/Counter.js',
@@ -27,6 +28,7 @@ module.exports = function (grunt) {
           'src/Entities/Guides.js',
           'src/Entities/Hook.js',
           'src/Entities/Cable.js',
+          'src/Entities/Radial.js',
           'src/Entities/Pointer.js',
 
           'src/States/Start.js',
@@ -49,7 +51,7 @@ module.exports = function (grunt) {
       build: {
         files: {
           'build/index.html': ['src/build.html'],
-          'build/Numbers.svg': ['src/Numbers.svg']
+          'build/Sprite.svg': ['src/Sprite.svg']
         }
       }
     },
@@ -63,7 +65,7 @@ module.exports = function (grunt) {
         files: [
           { src: 'build/build.min.js' },
           { src: 'build/index.html' },
-          { src: 'build/Numbers.svg' }
+          { src: 'build/Sprite.svg' }
         ]
       }
     }

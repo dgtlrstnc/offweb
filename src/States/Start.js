@@ -1,12 +1,15 @@
 StartState = {
   enter: ()=> {
     extend(E.startBtn.p, {y: 0});
+    extend(E.title.p, {y: -1.1, x: 0, s: 0.28});
     E.startBtn.setStateI('hidden');
     E.startBtn.setState('normal');
   },
 
   loop: (ctx, ms, dt)=> {
     E.bg.render(ctx, dt, ms);
+    E.radial.render(ctx, dt, ms);
+    E.title.render(ctx, dt, ms);
     E.startBtn.render(ctx, dt, ms);
 
     // events ----------------------------------

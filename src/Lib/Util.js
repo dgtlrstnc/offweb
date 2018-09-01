@@ -54,9 +54,9 @@ first = (array)=> array[0]
 last = (array)=> array[array.length-1]
 keys = Object.keys;
 values = Object.values;
-flatten = list => list.reduce(
-    (a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []
-);
+// flatten = list => list.reduce(
+//     (a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []
+// );
 
 
 // Rendering -------------------------------------

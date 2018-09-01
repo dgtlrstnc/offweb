@@ -9,6 +9,7 @@ G = new Game({
   canvas: 'game',
   setup: ()=> {
     E.bg = new Bg();
+    E.title = new Title();
     E.startBtn = new Btn();
     E.mask = new Mask();
     E.timeCounter = new Counter();
@@ -18,6 +19,7 @@ G = new Game({
     E.guides = new Guides();
     E.hooks = new Pool(Hook, HOOKS_AMOUNT);
     E.cables = new Pool(Cable, HOOKS_AMOUNT);
+    E.radial = new Radial();
     E.pointer = new Pointer();
   },
   states: {
