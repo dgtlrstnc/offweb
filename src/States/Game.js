@@ -466,7 +466,13 @@ GameState = {
     });
     E.countDownCounter.render(ctx);
 
-    E.glitchPass.render(ctx, dt, ms);
+    extend(E.timer.p, {
+      v: !(COUNTDOWN > 1),
+      p: clamp((GAME_DURATION+COUNTDOWN_DURATION-t)/GAME_DURATION)
+    })
+    E.timer.render(ctx, dt, ms);
+
+    // E.glitchPass.render(ctx, dt, ms);
 
     extend(E.pointer.p, POINTER);
     E.pointer.setState(POINTER.state);

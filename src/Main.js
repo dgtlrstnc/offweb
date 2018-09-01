@@ -21,6 +21,8 @@ G = new Game({
     E.pointsCounter = new Counter();
     E.countDownCounter = new Counter();
     extend(E.countDownCounter.p, {y: -0.05, c: 1});
+    E.timer = new Timer();
+    extend(E.timer.p, {y: -1.3});
     E.guides = new Guides();
     E.hooks = new Pool(Hook, HOOKS_AMOUNT);
     E.cables = new Pool(Cable, HOOKS_AMOUNT);
