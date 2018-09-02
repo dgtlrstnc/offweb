@@ -16,7 +16,7 @@ StartState = {
     E.squares.render(ctx, dt, ms);
     E.logos.render(ctx, dt, ms);
     E.startBtn.render(ctx, dt, ms);
-    E.glitchPass.render(ctx, dt, ms);
+    // E.glitchPass.render(ctx, dt, ms);
 
     // events ----------------------------------
     goReleasedT = !T[0] || goReleasedT;

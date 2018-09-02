@@ -6,6 +6,7 @@ GameoverState = {
     // E.pointsCounter.setState('focus');
     // E.mask.setState('small');
 
+    E.bg.setState('full');
     extend(E.squares.p, {c: 1});
     extend(E.logos.p, {c: 1});
     extend(E.pointsCounter.p, {x: 0.01, y: -1, n: clamp(G.points, 0, Infinity), c: 1});
@@ -20,7 +21,7 @@ GameoverState = {
   loop: (ctx, ms, dt)=> {
     E.bg.render(ctx, dt, ms);
 
-    E.guides.render(ctx, dt, ms);
+    // E.guides.render(ctx, dt, ms);
 
     // E.mask.render(ctx, dt, ms);
 

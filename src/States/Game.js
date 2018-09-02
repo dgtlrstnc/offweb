@@ -411,13 +411,15 @@ GameState = {
     // LOG = {text: '', startAt: 0};
     stateConnected = 0;
     stateCombos = [];
+    stateBads = 0;
     lastBadTapAt = -10000;
     nextBatchIsSpecial = false;
     resetHooks(ctx);
     resetCables(ctx);
 
+    E.bg.setState('normal');
     E.radial.setState('game');
-    extend(E.pointsCounter.p, {x: 0, y: -1, s: 0.55, c: 0});
+    extend(E.pointsCounter.p, {x: 0, y: -1.2, s: 0.55, c: 0});
     E.pointsCounter.setState('normal');
     extend(E.squares.p, {c: 0});
     extend(E.logos.p, {c: 0});
@@ -429,7 +431,7 @@ GameState = {
     PHYS.tick();
     E.bg.render(ctx, dt, ms);
 
-    E.guides.render(ctx, dt, ms);
+    // E.guides.render(ctx, dt, ms);
 
     E.cables.p = CABLES.filter((c)=>c.active);
     E.cables.render(ctx, dt, ms);

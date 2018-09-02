@@ -28,7 +28,7 @@ module.exports = function (grunt) {
           'src/Entities/Counter.js',
           'src/Entities/Timer.js',
           // 'src/Entities/Text.js',
-          'src/Entities/Guides.js',
+          // 'src/Entities/Guides.js',
           'src/Entities/Hook.js',
           'src/Entities/Cable.js',
           'src/Entities/Radial.js',

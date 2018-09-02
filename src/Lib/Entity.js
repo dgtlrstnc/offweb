@@ -7,10 +7,10 @@ class Entity {
     this.setStateI(o.s);
   }
 
-  beginRender(ctx) {
+    beginRender(ctx) {
     ctx.resetTransform();
     ctx.globalAlpha = (this.p.v) ? this.p.o : 0; // TODO
-    ctx.translate(unitsToPx(this.p.x+1), unitsToPx(this.p.y+H/W));
+    ctx.translate(unitsToPx(this.p.x+1), unitsToPx(this.p.y+H/W)+22);
     ctx.scale(this.p.s, this.p.s);
   }
 

@@ -1,9 +1,9 @@
 RadialCache = {};
 
 RADIAL_SMALL_R = 0.45;
-RADIAL_NB      = 4;  // amount Big
+RADIAL_NB      = 6;  // amount Big
 RADIAL_DB      = 10; // divisioRADIAL_NS Big
-RADIAL_TB      = 40; // thickness Big
+RADIAL_TB      = 32; // thickness Big
 RADIAL_NS      = 10; // amount Small
 RADIAL_TS      = RADIAL_SMALL_R/RADIAL_NS;
 RADIAL_DS      = 8;
@@ -30,11 +30,13 @@ class Radial extends Entity {
     });
   }
   drawBig(ctx, ms) {
-    times(RADIAL_NB, (i)=> {
+    const start = (this._state === 'start');
+    times(RADIAL_NB-(start?0:1), (i)=> {
+      if (!start) i++;
       this.renderCircle(
         ctx,
         i*0.2+(i+1)*0.1*ms/5000,
-        W*RADIAL_SMALL_R+RADIAL_TB*i-2,
+        +W*RADIAL_SMALL_R+RADIAL_TB*i-7,
         RADIAL_TB+2,
         RADIAL_DB,
         COLOR_LIGHTGRAY,
@@ -59,10 +61,11 @@ class Radial extends Entity {
       });
       RadialCache[cacheKey] = cached = {cached, s: (r+t)*2 };
     }
-    ctx.resetTransform();
-    ctx.translate(W/2, H/2);
+    // ctx.resetTransform();
+    // ctx.translate(W/2, H/2);
     ctx.rotate(a);
     ctx.drawImage(cached.cached, -cached.s/2, -cached.s/2, cached.s, cached.s);
+    ctx.rotate(-a);
   }
   // radius, thickness, start angle, lenght, color start, color end
   renderArc(ctx, r, t, a, l, s, e) {
