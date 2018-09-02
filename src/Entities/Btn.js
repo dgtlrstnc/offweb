@@ -2,7 +2,7 @@ class Btn extends Entity {
   render(ctx, dt, ms) {
     this.beginRender(ctx);
     ctx.beginPath();
-    ctx.fillStyle = COLOR_PURPLE
+    ctx.fillStyle = COLOR_PURPLE;
     ctx.arc(0, 0, 40, 0, PI2);
     ctx.fill();
     ctx.beginPath();
@@ -23,7 +23,8 @@ class Btn extends Entity {
 
   animations() {
     return {
-      'hidden→normal':  {_d: 2000, s: [0, 1, 'out']}
+      'hidden→normal':  {_d: 2000, _e: 'out'},
+      'normal→hidden':  {_d: 2000, _e: 'out'}
     };
   }
 }

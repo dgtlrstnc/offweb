@@ -1,7 +1,7 @@
 RadialCache = {};
 
 RADIAL_SMALL_R = 0.45;
-RADIAL_NB      = 6;  // amount Big
+RADIAL_NB      = 7;  // amount Big
 RADIAL_DB      = 10; // divisioRADIAL_NS Big
 RADIAL_TB      = 32; // thickness Big
 RADIAL_NS      = 10; // amount Small
@@ -9,37 +9,59 @@ RADIAL_TS      = RADIAL_SMALL_R/RADIAL_NS;
 RADIAL_DS      = 8;
 
 class Radial extends Entity {
+  constructor() {
+    super();
+    this.p.m = 1;
+  }
+
+  states() {
+    return {
+      intro:    {m: 0, s: 1},
+      out:      {m: 1, s: 2},
+      normal:   {m: 1, s: 1}
+    };
+  }
+
+  animations() {
+    return {
+      'intro→out': {_d: 1500, _e: 'in'},
+    };
+  }
+
   render(ctx, dt, ms) {
     this.beginRender(ctx);
-    if (this._state === 'start') this.drawSmall(ctx, ms);
+    if (this.p.m < 1)this.drawSmall(ctx, ms);
     this.drawBig(ctx, ms);
     this.endRender(ctx);
   }
 
   drawSmall(ctx, ms) {
+    var totalN = RADIAL_NS+2;
     times(RADIAL_NS, (i)=> {
       this.renderCircle(
         ctx,
-        ms/10000+i*0.1+i*0.1*ms/4000,
+        this.p.m*i*0.4+ms/10000+i*0.1+i*0.1*ms/4000,
         W*RADIAL_TS*i,
         W*RADIAL_TS+2,
         RADIAL_DS,
         '#1A1A1A',
         '#818181',
-        true
+        true,
+        (modulate(this.p.m, 0, 1, i/totalN, (i+1)/totalN))
       );
     });
     times(1, (i)=> {
+      i+= RADIAL_NS;
       this.renderCircle(
         ctx,
-        // ms/10000+(i+RADIAL_NS)*0.1+(i+RADIAL_NS)*0.1*ms/4000,
-        0,
-        +W*RADIAL_SMALL_R+RADIAL_TB*i-7,
+        (this.p.m>0) ? this.p.m*2.5 : 0,
+        +W*RADIAL_SMALL_R,
         RADIAL_TB+2,
         RADIAL_DB,
         COLOR_LIGHTGRAY,
         '#838488',
-        true
+        true,
+        (modulate(this.p.m, 0, 1, i/totalN, (i+1)/totalN))
       );
     });
   }
@@ -69,8 +91,9 @@ class Radial extends Entity {
     ctx.drawImage(RadialCache.big, -W/2, -(H*1.2)/2);
   }
   // offset angle, radius, thickness, divisioRADIAL_NS, color start, color end
-  renderCircle(ctx, a, r, t, d, s, e, cache) {
+  renderCircle(ctx, a, r, t, d, s, e, cache, p = 0) {
     const cacheKey = [r, t, d].map(round).join('-'); // hope s and e don't affect!
+    if (p >= 1) return;
     let cached = RadialCache[cacheKey];
     if (!cache || !cached) {
       cached = document.createElement('canvas');
@@ -88,9 +111,11 @@ class Radial extends Entity {
       RadialCache[cacheKey] = cached = {cached, s: (r+t)*2 };
     }
     if (cache) {
+      if (p>0.5) ctx.globalCompositeOperation = 'xor';
       ctx.rotate(a);
       ctx.drawImage(cached.cached, -cached.s/2, -cached.s/2, cached.s, cached.s);
       ctx.rotate(-a);
+      ctx.globalCompositeOperation = 'source-over';
     }
   }
   // radius, thickness, start angle, lenght, color start, color end

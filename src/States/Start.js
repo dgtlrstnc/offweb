@@ -1,10 +1,10 @@
 StartState = {
   enter: ()=> {
     extend(E.startBtn.p, {y: 0});
-    extend(E.title.p, {y: -1.1, x: 0, s: 0.28});
     extend(E.squares.p, {c: 0});
     extend(E.logos.p, {c: 0});
-    E.radial.setState('start');
+    E.radial.setStateI('out');
+    E.radial.setState('intro');
     E.startBtn.setStateI('hidden');
     E.startBtn.setState('normal');
   },
@@ -23,7 +23,7 @@ StartState = {
     if (goReleasedT && T[0]) {
       var d = unitsToPx(vA.set(T[0]).distanceTo(vB.set(E.startBtn.p)));
       if (d<40) { // TODO
-        G.setState('game');
+        G.setState('intro');
       }
     }
   },

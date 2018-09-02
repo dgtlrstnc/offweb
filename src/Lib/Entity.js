@@ -69,7 +69,7 @@ class Entity {
   }
 
   animateTo(s, a) {
-    this._a = { p: 0, d: a._d, from: this.p, to: s };
+    this._a = { p: 0, d: a._d, from: this.p, to: s, e: a._e };
     TICKER.add(this._animate);
   }
 
@@ -81,12 +81,16 @@ class Entity {
       this._a = null;
       return;
     }
+    p = clamp(p);
     var tks = keys(this._a.to);
     var tvs = values(this._a.to);
     tvs.forEach((tv, i)=> {
       var tk = tks[i];
       var fv = this._a.from[tk];
-      this.p[tk] = modulate(easeOut(p), fv, tv);
+      this.p[tk] = modulate(
+        (this._a.e==='out') ? easeOut(p) : easeIn(p)
+        , fv, tv
+      );
     });
   }
 }

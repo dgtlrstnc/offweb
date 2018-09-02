@@ -37,17 +37,24 @@ range = (n)=> {
 mapN = (n, cb)=> {
    return range(n).map(cb)
 };
-easeIn = (t)=> t * t * t * t * t
-easeOut = (t)=> --t * t * t * t * t + 1
-easeInOut = (t)=> t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t
-easeBackIn = (t)=> {
-  var s = 1.7;
-  return (t)*t*((s+1)*t - s);
+easeIn = (t)=>  t * t * t
+easeOut = (t)=> {
+  var f = t - 1.0
+  return f * f * f + 1.0
 }
-easeBackOut = (t)=> {
-  var s = 1.7;
-  return --t*t*((s+1)*t+s)+1;
+easeInOut = (t)=> {
+  return t < 0.5
+    ? 4.0 * t * t * t
+    : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0
 }
+// easeBackIn = (t)=> {
+//   var s = 1.7;
+//   return (t)*t*((s+1)*t - s);
+// }
+// easeBackOut = (t)=> {
+//   var s = 1.7;
+//   return --t*t*((s+1)*t+s)+1;
+// }
 
 // Objects and Arrays -----------------------------
 extend = Object.assign;
@@ -64,3 +71,44 @@ values = Object.values;
 pxToUnits = (px)=> px/W*2
 unitsToPx = (u)=> u*W/2
 nToA = (a)=> modulate(round(modulate(a, 0, GUIDES_AMOUNT)), 0, PI2, 0, GUIDES_AMOUNT)
+
+
+// Entities ---------------------------------------
+// sugar setter for several entity props
+setAllE = (entities)=> {
+  entities.forEach((e)=> {
+    extend(e[0].p, e[1]);
+    var state = e[1]._s;
+    if (state) e[0].setState(state);
+  });
+};
+// sugar to render several entities
+renderAllE = (ctx, dt, ms)=> {
+  // TODO
+};
+// --
+tlEStartAt = 0;
+tlETriggers = [];
+_updateTlE = (ms)=> {
+  var t = ms - tlEStartAt;
+  var remainT = [];
+  var trigger;
+  while(trigger = tlETriggers.pop()) {
+    if (trigger[0] < t) {
+      extend(trigger[1].p, trigger[2]);
+      var state = trigger[2]._s;
+      if (state) trigger[1].setState(state);
+
+    } else {
+      remainT.push(trigger);
+    }
+  }
+  tlETriggers = remainT;
+  if (!remainT.length) TICKER.remove(_updateTlE);
+}
+// create a timeline of entity setters
+tlE = (triggers)=> {
+  tlETriggers = triggers;
+  tlEStartAt = performance.now();
+  TICKER.add(_updateTlE);
+}

@@ -1,20 +1,19 @@
 class Bg extends Entity {
   constructor() {
-    super({s: 'normal'});
-    this.p.rad = 1;
+    super({s: 'full'});
   }
 
   states() {
     return {
       normal:   {rad: 1},
-      full:     {rad: 3},
+      full:     {rad: 2.5},
     };
   }
 
   animations() {
     return {
-      'normal→full':   {_d: 4000, rad: [0, 1, 'out']},
-      'full→normal':   {_d: 2000, rad: [0, 1, 'out']}
+      'normal→full':   {_d: 1000, rad: [0, 1, 'out']},
+      'full→normal':   {_d: 1000, rad: [0, 1, 'out']}
     };
   }
 

@@ -419,7 +419,7 @@ GameState = {
     resetCables(ctx);
 
     E.bg.setState('normal');
-    E.radial.setState('game');
+    E.radial.setState('out');
     extend(E.pointsCounter.p, {x: 0, y: -1.2, c: 0});
     E.pointsCounter.setState('normal');
     extend(E.squares.p, {c: 0});

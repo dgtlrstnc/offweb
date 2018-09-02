@@ -25,6 +25,7 @@ module.exports = function (grunt) {
           'src/Entities/Squares.js',
           'src/Entities/Logos.js',
           'src/Entities/Btn.js',
+          'src/Entities/BtnOutline.js',
           // 'src/Entities/Mask.js',
           'src/Entities/Counter.js',
           'src/Entities/Timer.js',
@@ -37,6 +38,7 @@ module.exports = function (grunt) {
           'src/Entities/GlitchPass.js',
 
           'src/States/Start.js',
+          'src/States/Intro.js',
           'src/States/Game.js',
           'src/States/Gameover.js',
 

@@ -3,12 +3,13 @@ next
 ----------------------------------------
 [x] high score in gameover
 [x] cache radial big together
-[ ] transition out to start
-[ ] transition start to intro
+[x] intro screen
+[x] transition start to intro
+[x] new play btn
+[ ] migrate to setAllE
+[ ] transition intro to game
 [ ] bad and special art + fix 7-8
-[ ] new play btn
 [ ] web in gameover
-[ ] intro screen
 
 
 

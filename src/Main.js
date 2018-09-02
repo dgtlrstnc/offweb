@@ -10,11 +10,18 @@ G = new Game({
   setup: ()=> {
     E.bg = new Bg();
     E.title = new Title();
+    extend(E.title.p, {y: -1.1, x: 0, s: 0.28});
     E.squares = new Squares();
     extend(E.squares.p, {y: 1.1, x: -0.73});
     E.logos = new Logos();
     extend(E.logos.p, {y: 1.25, x: 0.8});
     E.startBtn = new Btn();
+    E.continueBtn = new BtnOutline();
+    extend(E.continueBtn.p, {y: 0.75});
+    E.introText = new TextBox();
+    extend(E.introText.p, {y: -0.6, t: INTRO_TEXT_1});
+    E.introText2 = new TextBox();
+    extend(E.introText2.p, {y: -0.1, t: INTRO_TEXT_2});
     // E.mask = new Mask();
     // E.timeCounter = new Counter();
     // E.pointsLogs = new TextE();
@@ -36,6 +43,7 @@ G = new Game({
   },
   states: {
     start: StartState,
+    intro: IntroState,
     game: GameState,
     gameover: GameoverState
   }
