@@ -37,5 +37,5 @@ G = new Game({
   }
 });
 
-G.setState('game');
+G.setState('start');
 G.start();
