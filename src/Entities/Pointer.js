@@ -22,8 +22,8 @@ class Pointer extends Entity {
 
   animations() {
     return {
-      'hidden→visible': {_d: 300, s: [0, 1, 'in'], c: [0, 1, 'in']},
-      'visible→hidden': {_d: 300, s: [0, 1, 'in'], c: [0, 1, 'in']}
+      'hidden→visible': {_d: 300, _e: 'out'},
+      'visible→hidden': {_d: 300, _e: 'out'}
     };
   }
 }

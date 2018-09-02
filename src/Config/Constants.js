@@ -19,6 +19,7 @@ SPRING_STRENGTH = 0.2;
 SPRING_DAMPING = 0.01;
 
 // Design --------------------------------------
+V_OFFSET = 22;
 CABLE_THICKNESS = 3;
 HOOK_RADIUS = 8;
 

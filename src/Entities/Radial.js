@@ -55,7 +55,7 @@ class Radial extends Entity {
       this.renderCircle(
         ctx,
         (this.p.m>0) ? this.p.m*2.5 : 0,
-        +W*RADIAL_SMALL_R,
+        +W*RADIAL_SMALL_R-7,
         RADIAL_TB+2,
         RADIAL_DB,
         COLOR_LIGHTGRAY,

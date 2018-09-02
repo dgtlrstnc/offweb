@@ -8,7 +8,7 @@ var handleTouch = (e)=> {
   ts.forEach((t)=> {
     T[0] = {
       x: pxToUnits(t.clientX - W/2),
-      y: pxToUnits(t.clientY - H/2),
+      y: pxToUnits(t.clientY - V_OFFSET - H/2),
       z: 0
     };
   });
