@@ -1,8 +1,47 @@
+
 next
 ----------------------------------------
+[ ] high score in gameover
+[ ] web in gameover
+[ ] new play btn
+[ ] bad and special art + fix 7-8
+[ ] intro screen
+[ ] transition out to start
+[ ] transition start to intro
+
+
+
+
+all
+----------------------------------------
+[ ] intro screen
+[ ] tutorial screen
+[ ] high score in gameover
+[ ] web in gameover
+[ ] new play btn
+[ ] new log
+[ ] bad and special art
+[ ] glitch when bad hit
+
+[ ] transition out to start
+[ ] transition start to intro
+[ ] transition intro to tutorial
+[ ] transition intro/tutorial to game
+[ ] transition game to gameover
+[ ] transition gameover to game
+
+[ ] new glitch pass implementation
+[ ] nicer squares animations
+[ ] logos art
+[ ] cache radial big
+
+[ ] bad points dont block to 0
 [ ] add 2 types of special (3 total)
 [ ] add points for perfect
-[ ] fade out cables
+[ ] save/use all touch positions in game logic update
+
+[ ] retina support
+
 
 
 
@@ -14,9 +53,6 @@ performance
 
 
 
-
-----------------------------------------
-[ ] vertical scroller variation
 
 
 done
