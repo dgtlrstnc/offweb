@@ -2,13 +2,13 @@
 next
 ----------------------------------------
 [x] high score in gameover
-[ ] web in gameover
-[ ] new play btn
-[ ] bad and special art + fix 7-8
-[ ] cache radial big together
-[ ] intro screen
+[x] cache radial big together
 [ ] transition out to start
 [ ] transition start to intro
+[ ] bad and special art + fix 7-8
+[ ] new play btn
+[ ] web in gameover
+[ ] intro screen
 
 
 

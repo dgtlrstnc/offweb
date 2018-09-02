@@ -25,47 +25,73 @@ class Radial extends Entity {
         W*RADIAL_TS+2,
         RADIAL_DS,
         '#1A1A1A',
-        '#818181'
+        '#818181',
+        true
       );
     });
-  }
-  drawBig(ctx, ms) {
-    const start = (this._state === 'start');
-    times(RADIAL_NB-(start?0:1), (i)=> {
-      if (!start) i++;
+    times(1, (i)=> {
       this.renderCircle(
         ctx,
-        i*0.2+(i+1)*0.1*ms/5000,
+        // ms/10000+(i+RADIAL_NS)*0.1+(i+RADIAL_NS)*0.1*ms/4000,
+        0,
         +W*RADIAL_SMALL_R+RADIAL_TB*i-7,
         RADIAL_TB+2,
         RADIAL_DB,
         COLOR_LIGHTGRAY,
-        '#838488'
+        '#838488',
+        true
       );
     });
   }
-  // offset angle, radius, thickness, divisioRADIAL_NS, color start, color end
-  renderCircle(ctx, a, r, t, d, s, e) {
-    const cacheKey = [r, t, d].map(round).join('-'); // hope s and e don't affect!
-    let cached = RadialCache[cacheKey];
-    if (!cached) {
-      cached = document.createElement('canvas');
+  drawBig(ctx, ms) {
+    if (!RadialCache.big) {
+      var cached = document.createElement('canvas');
       let offCtx = cached.getContext('2d');
       extend(offCtx.canvas, {
-        width: (r+t)*2,
-        height: (r+t)*2
+        width: W,
+        height: H*1.2
       });
-      offCtx.translate(r+t, r+t);
+      offCtx.translate(W/2, (H*1.2)/2);
+      times(RADIAL_NB-1, (i)=> {
+        i++;
+        this.renderCircle(
+          offCtx,
+          i*0.2+(i+1)*0.1*ms/5000,
+          +W*RADIAL_SMALL_R+RADIAL_TB*i-7,
+          RADIAL_TB+2,
+          RADIAL_DB,
+          COLOR_LIGHTGRAY,
+          '#838488'
+        );
+      });
+      RadialCache.big = cached;
+    }
+    ctx.drawImage(RadialCache.big, -W/2, -(H*1.2)/2);
+  }
+  // offset angle, radius, thickness, divisioRADIAL_NS, color start, color end
+  renderCircle(ctx, a, r, t, d, s, e, cache) {
+    const cacheKey = [r, t, d].map(round).join('-'); // hope s and e don't affect!
+    let cached = RadialCache[cacheKey];
+    if (!cache || !cached) {
+      cached = document.createElement('canvas');
+      let offCtx = cache ? cached.getContext('2d') : ctx;
+      if (cache) {
+        extend(offCtx.canvas, {
+          width: (r+t)*2,
+          height: (r+t)*2
+        });
+        offCtx.translate(r+t, r+t);
+      }
       times(d, (i)=> {
-        this.renderArc(offCtx, r, t+2, i*PI2/d, 0.01+PI2/d, s, e);
+        this.renderArc(offCtx, r, t+2, (cache?0:a)+i*PI2/d, 0.01+PI2/d, s, e);
       });
       RadialCache[cacheKey] = cached = {cached, s: (r+t)*2 };
     }
-    // ctx.resetTransform();
-    // ctx.translate(W/2, H/2);
-    ctx.rotate(a);
-    ctx.drawImage(cached.cached, -cached.s/2, -cached.s/2, cached.s, cached.s);
-    ctx.rotate(-a);
+    if (cache) {
+      ctx.rotate(a);
+      ctx.drawImage(cached.cached, -cached.s/2, -cached.s/2, cached.s, cached.s);
+      ctx.rotate(-a);
+    }
   }
   // radius, thickness, start angle, lenght, color start, color end
   renderArc(ctx, r, t, a, l, s, e) {
