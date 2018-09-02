@@ -32,7 +32,7 @@ class Bg extends Entity {
   }
 
   drawGuides(ctx) {
-    ctx.strokeStyle = '#555';
+    ctx.strokeStyle = COLOR_DARKGRAY;
     ctx.lineWidth = 2;
     times(GUIDES_AMOUNT*3, (i)=> {
       ctx.beginPath();
@@ -59,7 +59,7 @@ class Bg extends Entity {
 
     // small circle
     ctx.beginPath();
-    ctx.strokeStyle = '#555';
+    ctx.strokeStyle = COLOR_DARKGRAY;
     ctx.lineWidth = 1.5;
     ctx.arc(0, 0, W/2*ARENA_RADIUS*0.2, 0, -PI2);
     ctx.fill();
