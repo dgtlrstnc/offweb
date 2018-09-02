@@ -16,6 +16,7 @@ class Timer extends Entity {
     ctx.stroke();
     ctx.fillStyle = COLOR_BLACK;
     ctx.font = '16px DIN Alternate';
+    ctx.textAlign= 'left';
     var t = '' + ceil(this.p.p*GAME_DURATION/1000);
     if (t.length === 1) t = '0'+t;
     ctx.fillText(t, -w/2, 5);

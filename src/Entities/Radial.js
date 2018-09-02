@@ -18,7 +18,7 @@ class Radial extends Entity {
     return {
       intro:    {m: 0, s: 1},
       out:      {m: 1, s: 2},
-      normal:   {m: 1, s: 1}
+      normal:   {m: 0.99, s: 1}
     };
   }
 
@@ -30,7 +30,7 @@ class Radial extends Entity {
 
   render(ctx, dt, ms) {
     this.beginRender(ctx);
-    if (this.p.m < 1)this.drawSmall(ctx, ms);
+    if (this.p.m < 1) this.drawSmall(ctx, ms);
     this.drawBig(ctx, ms);
     this.endRender(ctx);
   }

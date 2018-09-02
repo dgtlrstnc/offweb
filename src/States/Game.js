@@ -163,10 +163,10 @@ createHooksBatch = {
   },
   special: (startAt)=> {
     var a = nToA(rand());
-    var n = GUIDES_AMOUNT*2;
+    var n = GUIDES_AMOUNT;
     return range(n).map((i)=> {
       return createHook({
-        a: a+i*PI2*2/n,
+        a: a+i*PI2/n,
         startAt: startAt+20*i,
         d: 8000,
         eased: false,
@@ -418,6 +418,16 @@ GameState = {
     resetHooks(ctx);
     resetCables(ctx);
 
+    tlE([
+      [0,    E.bg,           { _s: 'normal'   }],
+      [0,    E.radial,       { _s: 'normal'   }],
+      [50,   E.startBtn,     { _s: 'hidden'   }],
+      [850,  E.introText,    { v: 0           }],
+      [800,  E.introText2,   { v: 0           }],
+      [1100, E.squares,      { c: 0           }],
+      [1100, E.logos,        { c: 0           }]
+    ]);
+
     E.bg.setState('normal');
     E.radial.setState('out');
     extend(E.pointsCounter.p, {x: 0, y: -1.2, c: 0});
@@ -459,7 +469,7 @@ GameState = {
     var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c), 0);
     points -= stateBads*POINTS_BAD;
     G.points = points;
-    extend(E.pointsCounter.p, {v: !(COUNTDOWN > 1)});
+    // extend(E.pointsCounter.p, {v: !(COUNTDOWN > 1)});
     E.pointsCounter.setNumber(clamp(points, 0, Infinity));
     E.pointsCounter.render(ctx);
 
@@ -470,7 +480,6 @@ GameState = {
     E.countDownCounter.render(ctx);
 
     extend(E.timer.p, {
-      v: !(COUNTDOWN > 1),
       p: clamp((GAME_DURATION+COUNTDOWN_DURATION-t)/GAME_DURATION)
     })
     E.timer.render(ctx, dt, ms);

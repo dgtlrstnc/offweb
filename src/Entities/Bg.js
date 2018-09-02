@@ -12,8 +12,8 @@ class Bg extends Entity {
 
   animations() {
     return {
-      'normal→full':   {_d: 1000, rad: [0, 1, 'out']},
-      'full→normal':   {_d: 1000, rad: [0, 1, 'out']}
+      'normal→full':   {_d: 200, rad: [0, 1, 'out']},
+      'full→normal':   {_d: 200, rad: [0, 1, 'out']}
     };
   }
 
