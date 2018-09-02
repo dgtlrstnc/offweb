@@ -14,9 +14,6 @@ GameoverState = {
     // E.pointsCounter.setStateI('hidden');
     // E.pointsCounter.setState('focus');
 
-    // extend(E.startBtn.p, {y: 1});
-    E.startBtn.setStateI('hidden');
-    E.startBtn.setState('normal');
   },
 
   loop: (ctx, ms, dt)=> {
@@ -32,12 +29,12 @@ GameoverState = {
     E.squares.render(ctx, dt, ms);
     E.logos.render(ctx, dt, ms);
 
-    E.startBtn.render(ctx, dt, ms);
+    E.continueBtn.render(ctx, dt, ms);
 
     // events ----------------------------------
     goReleasedT = !T[0] || goReleasedT;
     if (goReleasedT && T[0]) {
-      var d = unitsToPx(vA.set(T[0]).distanceTo(vB.set(E.startBtn.p)));
+      var d = unitsToPx(vA.set(T[0]).distanceTo(vB.set(E.continueBtn.p)));
       if (d<40) { // TODO
         G.setState('game');
       }
