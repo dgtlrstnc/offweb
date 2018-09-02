@@ -3,6 +3,7 @@ goReleasedT = false;
 GameoverState = {
   enter: ()=> {
     goReleasedT = false;
+    stateHighscore = max(clamp(G.points, 0, Infinity), stateHighscore);
     // E.pointsCounter.setState('focus');
     // E.mask.setState('small');
 
@@ -26,6 +27,8 @@ GameoverState = {
     // E.mask.render(ctx, dt, ms);
 
     E.pointsCounter.render(ctx, dt, ms);
+    extend(E.highscore.p, { t: 'HIGHSCORE: ' + stateHighscore });
+    E.highscore.render(ctx, dt, ms);
     E.squares.render(ctx, dt, ms);
     E.logos.render(ctx, dt, ms);
 

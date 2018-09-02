@@ -10,6 +10,7 @@ t = GAME_DURATION;
 stateConnected = 0;
 stateCombos = [];
 stateBads = 0;
+stateHighscore = 0;
 startT = null;
 lastIntersect = null;
 lastBadTapAt = -1000;
@@ -419,7 +420,7 @@ GameState = {
 
     E.bg.setState('normal');
     E.radial.setState('game');
-    extend(E.pointsCounter.p, {x: 0, y: -1.2, s: 0.55, c: 0});
+    extend(E.pointsCounter.p, {x: 0, y: -1.2, c: 0});
     E.pointsCounter.setState('normal');
     extend(E.squares.p, {c: 0});
     extend(E.logos.p, {c: 0});

@@ -1,10 +1,11 @@
 
 next
 ----------------------------------------
-[ ] high score in gameover
+[x] high score in gameover
 [ ] web in gameover
 [ ] new play btn
 [ ] bad and special art + fix 7-8
+[ ] cache radial big together
 [ ] intro screen
 [ ] transition out to start
 [ ] transition start to intro
@@ -33,7 +34,7 @@ all
 [ ] new glitch pass implementation
 [ ] nicer squares animations
 [ ] logos art
-[ ] cache radial big
+[ ] cache radial big together
 
 [ ] bad points dont block to 0
 [ ] add 2 types of special (3 total)

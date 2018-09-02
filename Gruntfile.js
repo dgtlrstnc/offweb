@@ -19,6 +19,7 @@ module.exports = function (grunt) {
           'src/Lib/Entity.js',
           'src/Lib/Pool.js',
 
+          'src/Entities/TextBox.js',
           'src/Entities/Bg.js',
           'src/Entities/Title.js',
           'src/Entities/Squares.js',

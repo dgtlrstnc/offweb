@@ -18,7 +18,9 @@ G = new Game({
     // E.mask = new Mask();
     // E.timeCounter = new Counter();
     // E.pointsLogs = new TextE();
+
     E.pointsCounter = new Counter();
+    extend(E.pointsCounter.p, {s: 0.55});
     E.countDownCounter = new Counter();
     extend(E.countDownCounter.p, {y: -0.05, c: 1});
     E.timer = new Timer();
@@ -28,6 +30,8 @@ G = new Game({
     E.cables = new Pool(Cable, HOOKS_AMOUNT);
     E.radial = new Radial();
     E.pointer = new Pointer();
+    E.highscore = new TextBox();
+    extend(E.highscore.p, { y: -0.65 });
     E.glitchPass = new GlitchPass();
   },
   states: {
