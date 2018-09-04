@@ -1,15 +1,19 @@
 
 next
 ----------------------------------------
+[ ] bad and special art + fix 7-8
+[ ] new logger
+[ ] web in gameover
+[ ] game to gameover
+
+[ ] migrate to setAllE
+[ ] transition intro to game
+
 [x] high score in gameover
 [x] cache radial big together
 [x] intro screen
 [x] transition start to intro
 [x] new play btn
-[ ] migrate to setAllE
-[ ] transition intro to game
-[ ] bad and special art + fix 7-8
-[ ] web in gameover
 
 
 
@@ -38,6 +42,7 @@ all
 [ ] cache radial big together
 
 [ ] bad points dont block to 0
+[ ] bad hooks after gameover
 [ ] add 2 types of special (3 total)
 [ ] add points for perfect
 [ ] save/use all touch positions in game logic update

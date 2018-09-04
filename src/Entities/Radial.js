@@ -17,7 +17,7 @@ class Radial extends Entity {
   states() {
     return {
       intro:    {m: 0, s: 1},
-      out:      {m: 1, s: 2},
+      out:      {m: 1, s: 2.1},
       normal:   {m: 0.99, s: 1}
     };
   }
@@ -55,7 +55,7 @@ class Radial extends Entity {
       this.renderCircle(
         ctx,
         (this.p.m>0) ? this.p.m*2.5 : 0,
-        +W*RADIAL_SMALL_R-7,
+        +W*RADIAL_SMALL_R-9,
         RADIAL_TB+2,
         RADIAL_DB,
         COLOR_LIGHTGRAY,
@@ -79,7 +79,7 @@ class Radial extends Entity {
         this.renderCircle(
           offCtx,
           i*0.2+(i+1)*0.1*ms/5000,
-          +W*RADIAL_SMALL_R+RADIAL_TB*i-7,
+          +W*RADIAL_SMALL_R+RADIAL_TB*i-9,
           RADIAL_TB+2,
           RADIAL_DB,
           COLOR_LIGHTGRAY,

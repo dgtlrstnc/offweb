@@ -26,9 +26,9 @@ class TextBox extends Entity {
     this.beginRender(ctx);
     ctx.canvas.style.letterSpacing = '1.5px';
     ctx.fillStyle = '#fff';
-    ctx.font = '13px DIN Alternate';
+    ctx.font = W/23 + 'px DIN Alternate';
     ctx.textAlign= 'center';
-    wrapText(ctx, this.p.t, 0, 0, W*0.9, 20);
+    wrapText(ctx, this.p.t, 0, 0, W*0.9, W/15);
     this.endRender(ctx);
   }
 }

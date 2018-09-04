@@ -23,8 +23,8 @@ class Hook extends Entity {
 
   animations() {
     return {
-      'hidden→visible': {_d: 500, s: [0, 1, 'in'], c: [0, 1, 'in']},
-      'visible→used':   {_d: 500, s: [0, 1, 'in'], c: [0, 1, 'in']}
+      'hidden→visible': {_d: 500, _e: 'out'},
+      'visible→used':   {_d: 500, _e: 'out'}
     };
   }
 }
