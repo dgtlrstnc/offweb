@@ -17,17 +17,17 @@ G = new Game({
     extend(E.logos.p, {y: 1.25, x: 0.8});
     E.startBtn = new Btn();
     E.continueBtn = new BtnOutline();
-    extend(E.continueBtn.p, {y: 0.75});
+    extend(E.continueBtn.p, {y: 0.8});
     E.introText = new TextBox();
     extend(E.introText.p, {y: -0.6, t: INTRO_TEXT_1});
     E.introText2 = new TextBox();
     extend(E.introText2.p, {y: -0.1, t: INTRO_TEXT_2});
     // E.mask = new Mask();
     // E.timeCounter = new Counter();
-    // E.pointsLogs = new TextE();
+    E.alert = new Alert();
 
     E.pointsCounter = new Counter();
-    extend(E.pointsCounter.p, {s: 0.55});
+    extend(E.pointsCounter.p, {x: 0, y: -1.2, s: 0.55});
     E.countDownCounter = new Counter();
     extend(E.countDownCounter.p, {y: -0.05, c: 1});
     E.timer = new Timer();
@@ -38,8 +38,8 @@ G = new Game({
     E.radial = new Radial();
     E.pointer = new Pointer();
     E.highscore = new TextBox();
-    extend(E.highscore.p, { y: -0.65 });
-    E.glitchPass = new GlitchPass();
+    extend(E.highscore.p, { y: -0.85 });
+    // E.glitchPass = new GlitchPass();
   },
   states: {
     start: StartState,

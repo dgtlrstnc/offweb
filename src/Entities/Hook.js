@@ -17,7 +17,8 @@ class Hook extends Entity {
     return {
       hidden: {s: 0, c: 0.5},
       visible: {s: 1, c: 0.5},
-      used: {s: 1, c: 1}
+      used: {s: 1, c: 1},
+      small: {s: 0.25}
     };
   }
 

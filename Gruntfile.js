@@ -29,13 +29,15 @@ module.exports = function (grunt) {
           // 'src/Entities/Mask.js',
           'src/Entities/Counter.js',
           'src/Entities/Timer.js',
-          // 'src/Entities/Text.js',
+          'src/Entities/Alert.js',
           // 'src/Entities/Guides.js',
           'src/Entities/Hook.js',
           'src/Entities/Cable.js',
           'src/Entities/Radial.js',
           'src/Entities/Pointer.js',
-          'src/Entities/GlitchPass.js',
+          // 'src/Entities/GlitchPass.js',
+
+          'src/States/Logic.js',
 
           'src/States/Start.js',
           'src/States/Intro.js',
