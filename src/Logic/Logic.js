@@ -10,6 +10,7 @@ t = GAME_DURATION;
 stateConnected = 0;
 stateCombos = [];
 stateBads = 0;
+statePerfects = 0;
 stateHighscore = 0;
 startT = null;
 lastIntersect = null;
@@ -26,6 +27,7 @@ function createHook(o) {
   lastHookId++;
   return extend({
     id: lastHookId,
+    batchId: lastBatchId,
     a: nToA(rand()),
     x: 0,
     y: 0,
@@ -178,6 +180,7 @@ createHooksBatch = {
 function resetHooks() {
   HOOKS = [];
   lastHookId = 0;
+  lastBatchId = 0;
   lastComboHookId = 0;
   badHooks = range(round(HOOKS_AMOUNT/BAD_HOOKS_FRQ)).map((i)=>round(i*BAD_HOOKS_FRQ+rand()*BAD_HOOKS_FRQ/3));
   badHooks.shift();
@@ -186,15 +189,17 @@ function resetHooks() {
   E.hooks.p = HOOKS;
 };
 function addHooksBatch() {
-    var batch = createHooksBatch[
-      keys(createHooksBatch)[round(rand()*(keys(createHooksBatch).length-2))]
-    ](t+500);
-    // var batch = createHooksBatch.special(t+500);
-    HOOKS = HOOKS.concat(batch);
+  lastBatchId++;
+  var batch = createHooksBatch[
+    keys(createHooksBatch)[round(rand()*(keys(createHooksBatch).length-2))]
+  ](t+500);
+  // var batch = createHooksBatch.special(t+500);
+  HOOKS = HOOKS.concat(batch);
 }
 function addSpecialHooksBatch() {
-    var batch = createHooksBatch.special(t);
-    HOOKS = HOOKS.concat(batch);
+  lastBatchId++;
+  var batch = createHooksBatch.special(t+500);
+  HOOKS = HOOKS.concat(batch);
 }
 function getVisibleHooks() {
   return HOOKS.filter((h)=> h.currentR < ARENA_RADIUS + 0.1);
@@ -229,20 +234,29 @@ function updateLogic(ms) {
   COUNTDOWN = modulate(t, 4, 1, 0, COUNTDOWN_DURATION);
 
   // game over ----------------------------------------
-  if (timeDone) {
-    extend(LOG, {t:'TIME UP', startAt: t});
-  }
+  // if (timeDone) {
+  //   extend(LOG, {t:'TIME UP', startAt: t});
+  // }
   if (t > GAME_DURATION+COUNTDOWN_DURATION+2000) {
     return G.setState('gameover');
   }
 
-  // add new batch ------------------------------------
-  if (t > COUNTDOWN_DURATION && t < GAME_DURATION+COUNTDOWN_DURATION && getVisibleHooks().length === 0) {
-    if (nextBatchIsSpecial) {
-      addSpecialHooksBatch();
-      nextBatchIsSpecial = false;
-    } else {
-      addHooksBatch();
+  // batch done  ------------------------------------
+  if(getVisibleHooks().length === 0) {
+    const lastBatch = HOOKS.filter((h)=> h.batchId === lastBatchId && !h.bad && !h.special);
+    const lastBatchMissed = lastBatch.filter((h)=> !h.connected)
+    if (!lastBatchMissed.length && t > COUNTDOWN_DURATION + 1000) {
+      // extend(LOG, {t:'PERFECT', startAt: t});
+      extend(LOG, {t:'P', startAt: t});
+      statePerfects++;
+    }
+    if (t > COUNTDOWN_DURATION && t < GAME_DURATION+COUNTDOWN_DURATION) {
+      if (nextBatchIsSpecial) {
+        addSpecialHooksBatch();
+        nextBatchIsSpecial = false;
+      } else {
+        addHooksBatch();
+      }
     }
   }
 
@@ -367,7 +381,7 @@ function updateLogic(ms) {
             hitR: closestH.currentR,
             currentR: 3
           });
-          extend(LOG, {t:'!!!', startAt: t});
+          // extend(LOG, {t:'!!!', startAt: t});
           knockedOut = true;
           lastBadTapAt = t;
           stateBads++;
@@ -398,10 +412,18 @@ function updateLogic(ms) {
 function onComboDone(t, knockedOut) {
   if (!currentCombo.length || lastComboHookId === last(currentCombo).id) return;
   if (currentCombo.length>1 && !knockedOut)
-    extend(LOG, {t:'COMBO X '+currentCombo.length, startAt: t});
+    extend(LOG, {t:'COMBO', n: currentCombo.length, startAt: t});
   CABLES[activeCableI].active = false;
   lastComboHookId = last(currentCombo).id;
   currentCombo.forEach((h)=> h.comboAt = t);
   stateCombos.push(currentCombo.length-1);
   currentCombo = [];
 };
+
+// Points -----------------------------------
+function getPoints() {
+  var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c), 0);
+  points -= stateBads*POINTS_BAD;
+  points += statePerfects*POINTS_PERF;
+  return clamp(points, 0, Infinity);
+}

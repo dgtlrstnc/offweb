@@ -6,28 +6,30 @@ GameState = {
     stateConnected = 0;
     stateCombos = [];
     stateBads = 0;
+    statePerfects = 0;
     lastBadTapAt = -10000;
     nextBatchIsSpecial = false;
+    lastBatchId = 0;
     resetHooks(ctx);
     resetCables(ctx);
 
     tlE([
-      [0,    E.bg,           { _s: 'normal'   }],
-      [0,    E.radial,       { _s: 'normal'   }],
-      [50,   E.startBtn,     { _s: 'hidden'   }],
-      [850,  E.introText,    { v: 0           }],
-      [800,  E.introText2,   { v: 0           }],
-      [1100, E.squares,      { c: 0           }],
-      [1100, E.logos,        { c: 0           }]
+      [0,    E.bg,                { _s: 'normal'             }],
+      [0,    E.radial,            { _s: 'normal'             }],
+      [0,    E.pointsCounter,     { _s: 'normal', c: 0, n:0  }],
+      [50,   E.startBtn,          { _s: 'hidden'             }],
+      [850,  E.introText,         { v: 0                     }],
+      [800,  E.introText2,        { v: 0                     }],
+      [1100, E.squares,           { c: 0                     }],
+      [1100, E.logos,             { c: 0                     }]
     ]);
 
-    E.bg.setState('normal');
-    E.radial.setState('out');
-    extend(E.pointsCounter.p, {c: 0});
-    E.pointsCounter.setState('normal');
-    extend(E.squares.p, {c: 0});
-    extend(E.logos.p, {c: 0});
-    // E.mask.setState('normal');
+    // E.bg.setState('normal');
+    // E.radial.setState('out');
+    // extend(E.pointsCounter.p, {c: 0});
+    // E.pointsCounter.setState('normal');
+    // extend(E.squares.p, {c: 0});
+    // extend(E.logos.p, {c: 0});
   },
 
   loop: (ctx, ms, dt)=> {
@@ -54,15 +56,17 @@ GameState = {
     // E.timeCounter.render(ctx);
 
     extend(E.alert.p, {
-      v: (LOG.startAt+500>t), t: LOG.t
+      v: (LOG.startAt+500>t), t: LOG.t, n: LOG.n
     });
+    // extend(E.alert.p, {
+    //   t: 'COMBO',
+    //   n: 8
+    // });
     E.alert.render(ctx, dt, ms);
 
-    var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c), 0);
-    points -= stateBads*POINTS_BAD;
-    G.points = points;
+    G.points = getPoints();
     // extend(E.pointsCounter.p, {v: !(COUNTDOWN > 1)});
-    E.pointsCounter.setNumber(clamp(points, 0, Infinity));
+    E.pointsCounter.setNumber(getPoints());
     E.pointsCounter.render(ctx);
 
     extend(E.countDownCounter.p, {

@@ -59,8 +59,8 @@ module.exports = function (grunt) {
     copy: {
       build: {
         files: {
-          'build/index.html': ['src/build.html'],
-          'build/Sprite.svg': ['src/Sprite.svg']
+          'build/index.html': ['src/build.html']
+          // 'build/Sprite.svg': ['src/Sprite.svg']
         }
       }
     },
@@ -73,8 +73,8 @@ module.exports = function (grunt) {
         },
         files: [
           { src: 'build/build.min.js' },
-          { src: 'build/index.html' },
-          { src: 'build/Sprite.svg' }
+          { src: 'build/index.html' }
+          // { src: 'build/Sprite.svg' }
         ]
       }
     }
