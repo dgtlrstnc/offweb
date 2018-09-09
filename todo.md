@@ -2,8 +2,10 @@
 next
 ----------------------------------------
 [ ] bad and special art + fix 7-8
-[ ] new logger
-[ ] web in gameover
+[ ] particles
+[ ] bad connect fx
+
+
 [ ] game to gameover
 
 [ ] migrate to setAllE
@@ -14,6 +16,8 @@ next
 [x] intro screen
 [x] transition start to intro
 [x] new play btn
+[x] new logger
+[x] web in gameover
 
 
 
