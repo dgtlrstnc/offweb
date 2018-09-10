@@ -3,8 +3,8 @@ HOOK_SW = 120; // Sprite Width
 glyphsImg = document.getElementById('sprite');
 
 class Hook extends Entity {
-  constructor() {
-    super({s: 'hidden'});
+  constructor(options = {}) {
+    super(options || {s: 'hidden'});
   }
 
   render(ctx, dt, ms) {

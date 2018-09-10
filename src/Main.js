@@ -18,10 +18,36 @@ G = new Game({
     E.startBtn = new Btn();
     E.continueBtn = new BtnOutline();
     extend(E.continueBtn.p, {y: 0.8});
+
     E.introText = new TextBox();
     extend(E.introText.p, {y: -0.6, t: INTRO_TEXT_1});
     E.introText2 = new TextBox();
     extend(E.introText2.p, {y: -0.1, t: INTRO_TEXT_2});
+
+    E.tutorialText1 = new TextBox();
+    extend(E.tutorialText1.p, {y: -0.7, t: TUTORIAL_TEXT_1});
+    E.tutorialText2 = new TextBox();
+    extend(E.tutorialText2.p, {y: -0.2, t: TUTORIAL_TEXT_2});
+    E.tutorialText3 = new TextBox();
+    extend(E.tutorialText3.p, {y: 0.25, t: TUTORIAL_TEXT_3});
+    // GOOD
+    E.tutorialHook1 = new Hook({s: 'visible'});
+    extend(E.tutorialHook1.p, {y: -0.55, x: -0.3});
+    E.tutorialHook2 = new Hook({s: 'visible'});
+    extend(E.tutorialHook2.p, {y: -0.55, x: 0});
+    E.tutorialHook3 = new Hook({s: 'visible'});
+    extend(E.tutorialHook3.p, {y: -0.55, x: 0.3});
+    E.tutorialCables = new TutorialCables();
+    E.tutorialCables.p.y = -0.6;
+    // BAD
+    E.tutorialBad1 = new Hook({s: 'visible'});
+    extend(E.tutorialBad1.p, {bad: true, y: -0.05, x: -0.15});
+    E.tutorialBad2 = new Hook({s: 'visible'});
+    extend(E.tutorialBad2.p, {bad: true, y: -0.05, x: 0.15});
+    // SPECIAL
+    E.tutorialSpecial = new Hook({s: 'visible'});
+    extend(E.tutorialSpecial.p, {special: true, y: 0.4});
+
     // E.mask = new Mask();
     // E.timeCounter = new Counter();
     E.alert = new Alert();
@@ -44,6 +70,7 @@ G = new Game({
   states: {
     start: StartState,
     intro: IntroState,
+    tutorial: TutorialState,
     game: GameState,
     gameover: GameoverState
   }

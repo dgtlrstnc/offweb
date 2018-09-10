@@ -1,5 +1,7 @@
+
 IntroState = {
   enter: ()=> {
+    goReleasedT = false;
     setAllE([
       // [E.bg,          { _s: 'full'        }],
       // [E.startBtn,    { _s: 'normal'       }],
@@ -40,8 +42,8 @@ IntroState = {
     goReleasedT = !T[0] || goReleasedT;
     if (goReleasedT && T[0]) {
       var d = unitsToPx(vA.set(T[0]).distanceTo(vB.set(E.continueBtn.p)));
-      if (d<40) { // TODO
-        G.setState('game');
+      if (d<100) { // TODO
+        G.setState('tutorial');
       }
     }
   },

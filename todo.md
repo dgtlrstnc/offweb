@@ -1,9 +1,9 @@
 
 next
 ----------------------------------------
-[ ] bad and special art + fix 7-8
-[ ] particles
 [ ] bad connect fx
+[ ] tutorial state
+[ ] particles
 
 
 [ ] game to gameover
@@ -18,6 +18,7 @@ next
 [x] new play btn
 [x] new logger
 [x] web in gameover
+[x] bad and special art + fix 7-8
 
 
 
