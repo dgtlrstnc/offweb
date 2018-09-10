@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 
           'src/Entities/TextBox.js',
           'src/Entities/Bg.js',
-          'src/Entities/Title.js',
+          'src/Entities/Sprite.js',
           'src/Entities/Squares.js',
           'src/Entities/Logos.js',
           'src/Entities/Btn.js',
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
           'src/Entities/TutorialCables.js',
           // 'src/Entities/GlitchPass.js',
 
-          'src/States/Logic.js',
+          'src/Logic/Logic.js',
 
           'src/States/Start.js',
           'src/States/Intro.js',

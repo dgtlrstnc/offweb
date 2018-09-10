@@ -9,7 +9,8 @@ G = new Game({
   canvas: 'game',
   setup: ()=> {
     E.bg = new Bg();
-    E.title = new Title();
+    E.title = new Sprite();
+    E.title.p.id = 'title';
     extend(E.title.p, {y: -1.1, x: 0, s: 0.28});
     E.squares = new Squares();
     extend(E.squares.p, {y: 1.1, x: -0.73});
@@ -51,6 +52,8 @@ G = new Game({
     // E.mask = new Mask();
     // E.timeCounter = new Counter();
     E.alert = new Alert();
+    E.bigE = new Sprite();
+    E.bigE.p.id = 'bigE';
 
     E.pointsCounter = new Counter();
     extend(E.pointsCounter.p, {x: 0, y: -1.2, s: 0.55});

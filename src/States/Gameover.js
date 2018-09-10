@@ -20,7 +20,7 @@ GameoverState = {
       if (h.bad) h.active = false;
       // if (h.special) h.active = false;
       if (!h.connected) h.active = false;
-      const targetR = 0.1 + 2*(h.id/HOOKS.length);
+      const targetR = 0.1 + 0.6*(h.id/HOOKS.length);
       const r = h.currentR -= (h.currentR-targetR)*dt/500;
       extend(h, {
         x: r*1*sin(h.a),

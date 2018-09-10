@@ -12,6 +12,7 @@ class Radial extends Entity {
   constructor() {
     super();
     this.p.m = 1;
+    this.p.fx = 0;
   }
 
   states() {
@@ -32,7 +33,18 @@ class Radial extends Entity {
     this.beginRender(ctx);
     if (this.p.m < 1) this.drawSmall(ctx, ms);
     this.drawBig(ctx, ms);
+    if (this.p.fx) this.drawFx(ctx);
     this.endRender(ctx);
+  }
+
+  drawFx(ctx) {
+    ctx.globalCompositeOperation = 'overlay';
+    ctx.fillStyle = '#DEC72D';
+    ctx.beginPath();
+    ctx.rect(-(W*1.3)/2, -H*0.7, W*1.2, H*1.4);
+    ctx.arc(0, 0, W*0.52*ARENA_RADIUS, 0, -PI2, true);
+    ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
   }
 
   drawSmall(ctx, ms) {
@@ -70,10 +82,10 @@ class Radial extends Entity {
       var cached = document.createElement('canvas');
       let offCtx = cached.getContext('2d');
       extend(offCtx.canvas, {
-        width: W,
+        width: W*1.2,
         height: H*1.2
       });
-      offCtx.translate(W/2, (H*1.2)/2);
+      offCtx.translate((W*1.2)/2, (H*1.2)/2);
       times(RADIAL_NB-1, (i)=> {
         i++;
         this.renderCircle(
@@ -88,7 +100,7 @@ class Radial extends Entity {
       });
       RadialCache.big = cached;
     }
-    ctx.drawImage(RadialCache.big, -W/2, -(H*1.2)/2);
+    ctx.drawImage(RadialCache.big, -(W*1.2)/2, -(H*1.2)/2);
   }
   // offset angle, radius, thickness, divisioRADIAL_NS, color start, color end
   renderCircle(ctx, a, r, t, d, s, e, cache, p = 0) {

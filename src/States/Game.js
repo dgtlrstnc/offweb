@@ -37,6 +37,11 @@ GameState = {
     PHYS.tick();
     E.bg.render(ctx, dt, ms);
 
+    const cameraFx = easeIn(clamp(modulate(t, 1, 0, lastBadTapAt, lastBadTapAt+1000)));
+    CAMERA_OFF_X = cameraFx*15*(1+cos(floor(ms/3)*0.2))*sin(floor(ms/3)*0.842);
+    CAMERA_OFF_Y = cameraFx*15*(1+sin(floor(ms/3)*0.2))*cos(floor(ms/3)*0.123);
+    E.radial.p.fx = (floor((cameraFx*8))%2 == 1) ? 1 : 0;
+
     // E.guides.render(ctx, dt, ms);
 
     E.cables.p = CABLES.filter((c)=>c.active);
@@ -58,11 +63,12 @@ GameState = {
     extend(E.alert.p, {
       v: (LOG.startAt+500>t), t: LOG.t, n: LOG.n
     });
-    // extend(E.alert.p, {
-    //   t: 'COMBO',
-    //   n: 8
-    // });
     E.alert.render(ctx, dt, ms);
+
+    extend(E.bigE.p, {
+      v: E.radial.p.fx
+    });
+    E.bigE.render(ctx, dt, ms);
 
     G.points = getPoints();
     // extend(E.pointsCounter.p, {v: !(COUNTDOWN > 1)});

@@ -1,3 +1,6 @@
+CAMERA_OFF_X = 0;
+CAMERA_OFF_Y = 0;
+
 class Entity {
   constructor(o = {}) {
     this._animate = this._animate.bind(this);
@@ -10,7 +13,7 @@ class Entity {
     beginRender(ctx) {
     ctx.resetTransform();
     ctx.globalAlpha = (this.p.v) ? this.p.o : 0; // TODO
-    ctx.translate(unitsToPx(this.p.x+1), unitsToPx(this.p.y+H/W)+V_OFFSET);
+    ctx.translate(unitsToPx(this.p.x+1)+CAMERA_OFF_X, unitsToPx(this.p.y+H/W)+V_OFFSET+CAMERA_OFF_Y);
     ctx.scale(this.p.s, this.p.s);
   }
 
