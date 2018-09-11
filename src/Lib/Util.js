@@ -9,6 +9,7 @@ rand = Math.random;
 floor = Math.floor;
 round = Math.round;
 ceil = Math.ceil;
+min = Math.min;
 max = Math.max;
 
 clamp = (val, min = 0, max = 1)=> {

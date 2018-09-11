@@ -44,6 +44,10 @@ class Game {
       width: W,
       height: H
     });
+    if (W>500) {
+      this.canvas.style.display = 'none';
+      TICKER.stop();
+    }
     // extend(this.canvas.style, {
     //   width: W / dpi + 'px',
     //   height: H / dpi + 'px'

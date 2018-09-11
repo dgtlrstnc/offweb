@@ -9,6 +9,13 @@ class Hook extends Entity {
 
   render(ctx, dt, ms) {
     this.beginRender(ctx);
+    if (this.p.fx && this.p.fx < 1) {
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 4*HOOK_RADIUS*(1-this.p.fx);
+      ctx.beginPath();
+      ctx.arc(0, 0, HOOK_RADIUS*4*this.p.fx, 0, PI2);
+      ctx.stroke();
+    }
     if (this.p.special) ctx.rotate(ms/200);
     ctx.beginPath();
     if (this.p.bad) {
@@ -36,9 +43,9 @@ class Hook extends Entity {
 
   states() {
     return {
-      hidden: {s: 0, c: 0.5},
-      visible: {s: 1, c: 0.5},
-      used: {s: 1, c: 1},
+      hidden: {s: 0, fx: 0},
+      visible: {s: 1, fx: 0},
+      used: {s: 1, fx: 1},
       small: {s: 0.25}
     };
   }
