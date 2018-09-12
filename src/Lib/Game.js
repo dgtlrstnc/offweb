@@ -45,7 +45,17 @@ class Game {
       height: H
     });
     if (W>500) {
-      this.canvas.style.display = 'none';
+      // this.canvas.style.display = 'none';
+      this.ctx.beginPath();
+      this.ctx.fillStyle = COLOR_BLACK;
+      this.ctx.rect(0, 0, W, H);
+      this.ctx.fill();
+      this.ctx.canvas.style.letterSpacing = '1.5px';
+      this.ctx.fillStyle = '#fff';
+      this.ctx.font = 22 + 'px DIN Alternate';
+      this.ctx.textAlign= 'center';
+      this.ctx.fillText('OPEN IN MOBILE', W/2, H/2);
+      this.setState = ()=>{};
       TICKER.stop();
     }
     // extend(this.canvas.style, {

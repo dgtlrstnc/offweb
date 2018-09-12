@@ -1,15 +1,16 @@
 
 next
 ----------------------------------------
-[ ] Hide cables when out, then in again on gameover
-[ ] Mobile message
+[ ] Logos
 [ ] Points bug?
 [ ] number 8 (7)
 [ ] migrate to setAllE
 [ ] size (pointer out?)
-[ ] Logos
 [ ] Screenshots (160×160 400×250)
 [ ] Submit
+
+[x] Hide cables when out, then in again on gameover
+[x] Mobile message
 
 
 [ ] transition intro to game
