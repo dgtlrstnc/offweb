@@ -43,11 +43,11 @@ easeOut = (t)=> {
   var f = t - 1.0
   return f * f * f + 1.0
 }
-easeInOut = (t)=> {
-  return t < 0.5
-    ? 4.0 * t * t * t
-    : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0
-}
+// easeInOut = (t)=> {
+//   return t < 0.5
+//     ? 4.0 * t * t * t
+//     : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0
+// }
 // easeBackIn = (t)=> {
 //   var s = 1.7;
 //   return (t)*t*((s+1)*t - s);
