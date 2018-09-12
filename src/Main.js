@@ -51,7 +51,7 @@ G = new Game({
 
     E.alert = new Alert();
     E.bigE = new Sprite();
-    // E.bigE.p.id = 'bigE';
+    E.bigE.p.id = 'bigE';
 
     E.pointsCounter = new Counter();
     extend(E.pointsCounter.p, {x: 0, y: -1.2, s: 0.55});

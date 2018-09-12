@@ -37,7 +37,7 @@ GameState = {
     setAllE([
       [E.radial,           { fx: (floor((cameraFx*8))%2 == 1) ? 1 : 0 }],
       [E.alert,            { v: (LOG.startAt+500>t), t: LOG.t, n: LOG.n }],
-      // [E.bigE,             { v: E.radial.p.fx }],
+      [E.bigE,             { v: E.radial.p.fx }],
       [E.countDownCounter, { s: 1, v: (COUNTDOWN > 1), n: COUNTDOWN }],
       [E.timer,            { p: clamp((GAME_DURATION+COUNTDOWN_DURATION-t)/GAME_DURATION) }]
     ]);
@@ -50,7 +50,7 @@ GameState = {
     E.squares.render(ctx, dt, ms);
     // E.logos.render(ctx, dt, ms);
     E.alert.render(ctx, dt, ms);
-    // E.bigE.render(ctx, dt, ms);
+    E.bigE.render(ctx, dt, ms);
     G.points = getPoints();
     E.pointsCounter.setNumber(getPoints());
     E.pointsCounter.render(ctx);

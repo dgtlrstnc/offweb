@@ -8,8 +8,6 @@ module.exports = function (grunt) {
     concat: {
       build: {
         src: [
-          'src/start.js',
-
           'src/Vendor/Traer.js',
 
           'src/Config/Constants.js',
@@ -49,8 +47,6 @@ module.exports = function (grunt) {
           'src/States/Gameover.js',
 
           'src/Main.js',
-
-          'src/end.js'
         ],
         dest: 'build/build.js',
       },

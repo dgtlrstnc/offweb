@@ -31,51 +31,51 @@ class Squares extends Entity {
     ctx.rotate(r);
     ctx.fillRect(-SQUARES_SIZE/2, -SQUARES_SIZE/2, SQUARES_SIZE, SQUARES_SIZE);
     ctx.fillStyle = (this.p.c === 0) ? COLOR_LIGHTGRAY : COLOR_BLACK;
-    // this[[
-    //   'drawCircle',
-    //   'drawHalfCircles',
-    //   'drawTriangle',
-    //   'drawTriangles',
-    // ][i%4]](ctx);
+    this[[
+      'drawCircle',
+      'drawHalfCircles',
+      'drawTriangle',
+      'drawTriangles',
+    ][i%4]](ctx);
     ctx.rotate(-r);
     ctx.translate(-x, -y);
   }
 
-  // drawCircle(ctx) {
-  //   ctx.beginPath();
-  //   ctx.arc(0, 0, SQUARES_R, 0, PI2);
-  //   ctx.fill();
-  // }
-  //
-  // drawHalfCircles(ctx) {
-  //   ctx.beginPath();
-  //   ctx.arc(0, 0, SQUARES_R, 0, PI);
-  //   ctx.fill();
-  //   ctx.beginPath();
-  //   ctx.arc(0, -SQUARES_R, SQUARES_R, 0, PI);
-  //   ctx.fill();
-  // }
-  //
-  // drawTriangle(ctx) {
-  //   ctx.beginPath();
-  //   ctx.moveTo(SQUARES_R, -SQUARES_R);
-  //   ctx.lineTo(SQUARES_R, SQUARES_R);
-  //   ctx.lineTo(-SQUARES_R, SQUARES_R);
-  //   ctx.closePath();
-  //   ctx.fill();
-  // }
-  //
-  // drawTriangles(ctx) {
-  //   times(4, (i)=> {
-  //     var t = [i%2, floor(i/2)].map((v)=>-SQUARES_R/2+v*SQUARES_R);
-  //     ctx.translate(t[0], t[1]);
-  //     ctx.beginPath();
-  //     ctx.moveTo(SQUARES_R/2, -SQUARES_R/2);
-  //     ctx.lineTo(SQUARES_R/2, SQUARES_R/2);
-  //     ctx.lineTo(-SQUARES_R/2, SQUARES_R/2);
-  //     ctx.closePath();
-  //     ctx.fill();
-  //     ctx.translate(-t[0], -t[1]);
-  //   });
-  // }
+  drawCircle(ctx) {
+    ctx.beginPath();
+    ctx.arc(0, 0, SQUARES_R, 0, PI2);
+    ctx.fill();
+  }
+
+  drawHalfCircles(ctx) {
+    ctx.beginPath();
+    ctx.arc(0, 0, SQUARES_R, 0, PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(0, -SQUARES_R, SQUARES_R, 0, PI);
+    ctx.fill();
+  }
+
+  drawTriangle(ctx) {
+    ctx.beginPath();
+    ctx.moveTo(SQUARES_R, -SQUARES_R);
+    ctx.lineTo(SQUARES_R, SQUARES_R);
+    ctx.lineTo(-SQUARES_R, SQUARES_R);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  drawTriangles(ctx) {
+    times(4, (i)=> {
+      var t = [i%2, floor(i/2)].map((v)=>-SQUARES_R/2+v*SQUARES_R);
+      ctx.translate(t[0], t[1]);
+      ctx.beginPath();
+      ctx.moveTo(SQUARES_R/2, -SQUARES_R/2);
+      ctx.lineTo(SQUARES_R/2, SQUARES_R/2);
+      ctx.lineTo(-SQUARES_R/2, SQUARES_R/2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.translate(-t[0], -t[1]);
+    });
+  }
 }
