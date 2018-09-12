@@ -2,7 +2,7 @@ StartState = {
   enter: ()=> {
     setAllE([
       [E.startBtn,   {y: 0}],
-      [E.squares,    {c: 0}],
+      // [E.squares,    {c: 0}],
       // [E.logos,      {c: 0}]
     ])
     E.radial.setStateI('out');
@@ -15,7 +15,7 @@ StartState = {
     E.bg.render(ctx, dt, ms);
     E.radial.render(ctx, dt, ms);
     E.title.render(ctx, dt, ms);
-    E.squares.render(ctx, dt, ms);
+    // E.squares.render(ctx, dt, ms);
     // E.logos.render(ctx, dt, ms);
     E.startBtn.render(ctx, dt, ms);
 

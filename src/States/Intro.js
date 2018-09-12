@@ -11,7 +11,7 @@ IntroState = {
       [800,  E.introText2,   { v: 1         }],
       [850,  E.continueBtn,  { v: 1         }],
       [1100, E.title,        { c: 1         }],
-      [1100, E.squares,      { c: 1         }],
+      // [1100, E.squares,      { c: 1         }],
       // [1100, E.logos,        { c: 1         }]
     ]);
   },
@@ -24,7 +24,7 @@ IntroState = {
     E.radial.render(ctx, dt, ms);
     E.startBtn.render(ctx, dt, ms);
     E.title.render(ctx, dt, ms);
-    E.squares.render(ctx, dt, ms);
+    // E.squares.render(ctx, dt, ms);
     // E.logos.render(ctx, dt, ms);
 
     // events ----------------------------------

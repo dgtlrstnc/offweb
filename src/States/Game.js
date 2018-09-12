@@ -19,7 +19,7 @@ GameState = {
       [50,   E.startBtn,          { _s: 'hidden'             }],
       [850,  E.introText,         { v: 0                     }],
       [800,  E.introText2,        { v: 0                     }],
-      [1100, E.squares,           { c: 0                     }],
+      // [1100, E.squares,           { c: 0                     }],
       // [1100, E.logos,             { c: 0                     }]
     ]);
   },
@@ -47,7 +47,7 @@ GameState = {
     E.hooks.p = HOOKS.filter((h)=>h.active);
     E.hooks.render(ctx, dt, ms);
     E.radial.render(ctx, dt, ms);
-    E.squares.render(ctx, dt, ms);
+    // E.squares.render(ctx, dt, ms);
     // E.logos.render(ctx, dt, ms);
     E.alert.render(ctx, dt, ms);
     E.bigE.render(ctx, dt, ms);

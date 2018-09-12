@@ -92,3 +92,7 @@ done
 notes
 -------------------------------------------
 ffmpeg -f image2 -i frames/frame_%05d.png -vcodec libx264 -crf 1 -pix_fmt yuv420p -vf scale=504:-1 out.mp4
+
+
+
+advzip -z4q -i 1000 build.zip

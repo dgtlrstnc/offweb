@@ -12,8 +12,8 @@ G = new Game({
     E.title = new Sprite();
     E.title.p.id = 'title';
     extend(E.title.p, {y: -1.1, x: 0, s: 0.28});
-    E.squares = new Squares();
-    extend(E.squares.p, {y: 1.1, x: -0.73});
+    // E.squares = new Squares();
+    // extend(E.squares.p, {y: 1.1, x: -0.73});
     // E.logos = new Logos();
     // extend(E.logos.p, {y: 1.25, x: 0.8});
     E.startBtn = new Btn();

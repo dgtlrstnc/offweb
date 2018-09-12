@@ -22,7 +22,7 @@ TutorialState = {
       [0,     E.introText,       { v: 1         }],
       [0,     E.introText2,      { v: 1         }],
       [0,     E.title,           { c: 1         }],
-      [0,     E.squares,         { c: 1         }],
+      // [0,     E.squares,         { c: 1         }],
       // [0,     E.logos,           { c: 1         }],
       [400,   E.tutorialText1,   { v: 1         }],
       [500,   E.tutorialHook1,   { v: 1         }],
@@ -55,7 +55,7 @@ TutorialState = {
     E.continueBtn.render(ctx, dt, ms);
     E.radial.render(ctx, dt, ms);
     E.title.render(ctx, dt, ms);
-    E.squares.render(ctx, dt, ms);
+    // E.squares.render(ctx, dt, ms);
     // E.logos.render(ctx, dt, ms);
 
 
