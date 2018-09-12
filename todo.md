@@ -1,14 +1,17 @@
 
 next
 ----------------------------------------
-[ ] bad connect fx
-[ ] tutorial state
-[ ] particles
-
-
-[ ] game to gameover
-
+[ ] Hide cables when out, then in again on gameover
+[ ] Mobile message
+[ ] Points bug?
+[ ] number 8 (7)
 [ ] migrate to setAllE
+[ ] size (pointer out?)
+[ ] Logos
+[ ] Screenshots (160×160 400×250)
+[ ] Submit
+
+
 [ ] transition intro to game
 
 [x] high score in gameover
@@ -19,6 +22,10 @@ next
 [x] new logger
 [x] web in gameover
 [x] bad and special art + fix 7-8
+[x] bad connect fx
+[x] tutorial state
+[x] particles
+
 
 
 

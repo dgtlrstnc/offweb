@@ -250,6 +250,9 @@ function updateLogic(ms) {
       extend(LOG, {t:'P', startAt: t});
       statePerfects++;
     }
+    CABLES.filter((c)=>c.batchId === lastBatchId).forEach((c)=> {
+      c.state = 'out';
+    });
     if (t > COUNTDOWN_DURATION && t < GAME_DURATION+COUNTDOWN_DURATION) {
       if (nextBatchIsSpecial) {
         addSpecialHooksBatch();
@@ -356,7 +359,7 @@ function updateLogic(ms) {
             extend(CABLE, {
               p1: p,
               id1: closestH.id,
-              state: 'connected'
+              batchId: lastBatchId
             });
             activeCableI++;
           }

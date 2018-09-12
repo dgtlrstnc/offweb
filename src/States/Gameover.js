@@ -5,6 +5,8 @@ GameoverState = {
     goReleasedT = false;
     stateHighscore = max(clamp(G.points, 0, Infinity), stateHighscore);
 
+    CABLES.forEach((c)=>c.state = 'normal');
+
     E.bg.setState('full');
     extend(E.squares.p, {c: 1});
     extend(E.logos.p, {c: 1});

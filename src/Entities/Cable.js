@@ -2,10 +2,9 @@ var centerP = null;
 
 class Cable extends Entity {
   constructor() {
-    super();
+    super({s: 'normal'});
     this.p.p0 = {x: -0.4, y: 0};
     this.p.p1 = {x:  0.4, y: -0.5};
-    this.p.c = 1;
     if (!centerP) {
       centerP = PHYS.makeParticle(0, 0, 0, 0);
       centerP.makeFixed();
@@ -75,14 +74,15 @@ class Cable extends Entity {
 
   states() {
     return {
-      normal: {c: 1},
-      connected: {c: 0.7}
+      normal: {o: 1},
+      out: {o: 0}
     };
   }
 
   animations() {
     return {
-      'normal→connected': {_d: 500, c: [0, 1, 'in']}
+      'normal→out': {_d: 1000, _e: 'out'},
+      'out→normal': {_d: 8000, _e: 'out'},
     };
   }
 }
