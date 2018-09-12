@@ -17,7 +17,7 @@ class Alert extends Entity {
     // box
     ctx.fillStyle = COLOR_BLACK;
     ctx.fillRect(-w/2, -h/2, w, h);
-    ctx.strokeStyle = '#fff'
+    ctx.strokeStyle = '#fff';
     ctx.strokeRect(-w/2+5, -h/2+5, w-10, h-10);
 
     // text

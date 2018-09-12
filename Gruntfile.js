@@ -23,7 +23,7 @@ module.exports = function (grunt) {
           'src/Entities/Bg.js',
           'src/Entities/Sprite.js',
           'src/Entities/Squares.js',
-          'src/Entities/Logos.js',
+          // 'src/Entities/Logos.js',
           'src/Entities/Btn.js',
           'src/Entities/BtnOutline.js',
           // 'src/Entities/Mask.js',
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
           'src/Entities/Hook.js',
           'src/Entities/Cable.js',
           'src/Entities/Radial.js',
-          'src/Entities/Pointer.js',
+          // 'src/Entities/Pointer.js',
           'src/Entities/TutorialCables.js',
           // 'src/Entities/GlitchPass.js',
 

@@ -84,9 +84,9 @@ setAllE = (entities)=> {
   });
 };
 // sugar to render several entities
-renderAllE = (ctx, dt, ms)=> {
-  // TODO
-};
+// renderAllE = (ctx, dt, ms)=> {
+//   // TODO
+// };
 // --
 tlEStartAt = 0;
 tlETriggers = [];

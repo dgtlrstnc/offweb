@@ -10,7 +10,7 @@ t = GAME_DURATION;
 stateConnected = 0;
 stateCombos = [];
 stateBads = 0;
-statePerfects = 0;
+statePerfects = [];
 stateHighscore = 0;
 startT = null;
 lastIntersect = null;
@@ -248,7 +248,9 @@ function updateLogic(ms) {
     if (!lastBatchMissed.length && t > COUNTDOWN_DURATION + 1000) {
       // extend(LOG, {t:'PERFECT', startAt: t});
       extend(LOG, {t:'P', startAt: t});
-      statePerfects++;
+      if (last(statePerfects) !== lastBatchId) {
+        statePerfects.push(lastBatchId);
+      }
     }
     CABLES.filter((c)=>c.batchId === lastBatchId).forEach((c)=> {
       c.state = 'out';
@@ -427,6 +429,6 @@ function onComboDone(t, knockedOut) {
 function getPoints() {
   var points = stateConnected + stateCombos.reduce((a, c)=> a+(c*c), 0);
   points -= stateBads*POINTS_BAD;
-  points += statePerfects*POINTS_PERF;
+  points += statePerfects.length*POINTS_PERF;
   return clamp(points, 0, Infinity);
 }

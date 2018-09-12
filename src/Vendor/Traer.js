@@ -15,79 +15,71 @@
  */
 function Vector() {
 	var argc = arguments.length;
-	if (argc === 3) {
-		this.x = arguments[0];
-		this.y = arguments[1];
-		this.z = arguments[2];
-	}
-	else if (argc === 1) {
-		this.x = arguments[0].x;
-		this.y = arguments[0].y;
-		this.z = arguments[0].z;
-	}
-	else {
+	// if (argc === 3) {
+	// 	this.x = arguments[0];
+	// 	this.y = arguments[1];
+	// 	this.z = arguments[2];
+	// }
+	// else if (argc === 1) {
+	// 	this.x = arguments[0].x;
+	// 	this.y = arguments[0].y;
+	// 	this.z = arguments[0].z;
+	// }
+	// else {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
-	}
+	// }
 }
-Vector.prototype.set = function() {
-	var argc = arguments.length;
-	if (argc === 3) {
-		this.x = arguments[0];
-		this.y = arguments[1];
-		this.z = arguments[2];
-	}
-	else if (argc === 1) {
-		this.x = arguments[0].x;
-		this.y = arguments[0].y;
-		this.z = arguments[0].z;
+Vector.prototype.set = function(x, y, z) {
+	if (arguments.length === 3) {
+		extend(this, {x, y, z});
+	} else {
+		extend(this, x);
 	}
 	return this;
 };
-Vector.prototype.add = function(v) {
-	var argc = arguments.length;
-	if (argc === 3) {
-		this.x += arguments[0];
-		this.y += arguments[1];
-		this.z += arguments[2];
-	}
-	else if (argc === 1) {
-		this.x += arguments[0].x;
-		this.y += arguments[0].y;
-		this.z += arguments[0].z;
+Vector.prototype.add = function(x, y, z) {
+	if (arguments.length === 3) {
+		this.x += x;
+		this.y += y;
+		this.z += z;
+	} else {
+		this.x += x.x;
+		this.y += x.y;
+		this.z += x.z;
 	}
 	return this;
 };
-Vector.prototype.substract = function(v) {
-	var argc = arguments.length;
-	if (argc === 3) {
-		this.x -= arguments[0];
-		this.y -= arguments[1];
-		this.z -= arguments[2];
-	}
-	else if (argc === 1) {
-		this.x -= arguments[0].x;
-		this.y -= arguments[0].y;
-		this.z -= arguments[0].z;
-	}
-	return this;
-};
-Vector.prototype.scale = function(f) {
-	this.x *= f; this.y *= f; this.z *= f;
-	return this;
-};
+// Vector.prototype.substract = function(v) {
+// 	var argc = arguments.length;
+// 	if (argc === 3) {
+// 		this.x -= arguments[0];
+// 		this.y -= arguments[1];
+// 		this.z -= arguments[2];
+// 	}
+// 	else if (argc === 1) {
+// 		this.x -= arguments[0].x;
+// 		this.y -= arguments[0].y;
+// 		this.z -= arguments[0].z;
+// 	}
+// 	return this;
+// };
+// Vector.prototype.scale = function(f) {
+// 	this.x *= f; this.y *= f; this.z *= f;
+// 	return this;
+// };
 Vector.prototype.distanceTo = function() {
-	var argc = arguments.length;
-	if (argc === 3) {
-		var dx = this.x - arguments[0];
-		var dy = this.y - arguments[1];
-		var dz = this.z - arguments[2];
-		return Math.sqrt(dx*dx + dy*dy + dz*dz);
-	}
-	else if (argc === 1) {
+	// var argc = arguments.length;
+	// if (argc === 3) {
+	// 	var dx = this.x - arguments[0];
+	// 	var dy = this.y - arguments[1];
+	// 	var dz = this.z - arguments[2];
+	// 	return Math.sqrt(dx*dx + dy*dy + dz*dz);
+	// }
+	// else if (argc === 1) {
 		return Math.sqrt(this.distanceSquaredTo(arguments[0]));
-	}
+	// }
 	return this;
 };
 Vector.prototype.distanceSquaredTo = function(v) {
@@ -150,7 +142,7 @@ function Spring(a, b, k, d, l) {
 	this.b = b;
 	this.on = true;
 }
-Spring.prototype.currentLength = function() { return this.a.pos.distanceTo(this.b.pos); };
+// Spring.prototype.currentLength = function() { return this.a.pos.distanceTo(this.b.pos); };
 Spring.prototype.apply = function() {
 
 	var a = this.a;

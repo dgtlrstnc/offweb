@@ -1,10 +1,11 @@
 
 next
 ----------------------------------------
-[ ] Logos
-[ ] Points bug?
-[ ] number 8 (7)
+
 [ ] migrate to setAllE
+[ ] Logos
+[x] Points bug?
+[ ] number 8 (7)
 [ ] size (pointer out?)
 [ ] Screenshots (160×160 400×250)
 [ ] Submit

@@ -9,7 +9,7 @@ GameoverState = {
 
     E.bg.setState('full');
     extend(E.squares.p, {c: 1});
-    extend(E.logos.p, {c: 1});
+    // extend(E.logos.p, {c: 1});
     extend(E.pointsCounter.p, {n: clamp(G.points, 0, Infinity), c: 1});
     E.hooks.entities.forEach((h)=> {
     });
@@ -51,7 +51,7 @@ GameoverState = {
     extend(E.highscore.p, { t: 'HIGHSCORE: ' + stateHighscore });
     E.highscore.render(ctx, dt, ms);
     E.squares.render(ctx, dt, ms);
-    E.logos.render(ctx, dt, ms);
+    // E.logos.render(ctx, dt, ms);
 
     E.continueBtn.render(ctx, dt, ms);
 
